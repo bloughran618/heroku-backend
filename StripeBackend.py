@@ -206,6 +206,7 @@ def issue_key():
 @app.route('/')
 def index():
     # return render_template('index.html', key=stripe_keys['publishable_key'])
+    print("We are in the app route main")
     return("Lookit my backend!!!")
 
 # account_id = createAccount()
