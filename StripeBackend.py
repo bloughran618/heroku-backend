@@ -203,6 +203,11 @@ def issue_key():
     key = stripe.EphemeralKey.create(customer=customerId, api_version="2017-05-25")
     return jsonify(key)
 
+@app.route('/')
+def index():
+    # return render_template('index.html', key=stripe_keys['publishable_key'])
+    return("Lookit my backend!!!")
+
 # account_id = createAccount()
 # updatePersonalInfo(account_id, "Brian", "Loughran", "42 Ardmore Rd", None, "West Hartford", "CT", "06119",
 #               "18", "06", "1995", "2427")
@@ -217,4 +222,4 @@ def issue_key():
 # acceptServicesAgreement(account_id, ip_address)
 # print("done")
 
-print(issue_key()) # ????????
+# print(issue_key()) # ????????
