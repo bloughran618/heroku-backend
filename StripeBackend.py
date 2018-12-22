@@ -6,15 +6,15 @@ from flask import Flask, session, jsonify, request
 stripe.api_key = "sk_test_BPL2Sy81u9355r3GlN4XKG2t"
 app = Flask(import_name="SpotBird")
 
-print("Charge:\n")
-print(stripe.Charge.retrieve(
-  "ch_1DfXjJLkBK9oeUkAfs7NQdFI",
-  api_key="sk_test_BPL2Sy81u9355r3GlN4XKG2t"
-))
+# print("Charge:\n")
+# print(stripe.Charge.retrieve(
+#   "ch_1DfXjJLkBK9oeUkAfs7NQdFI",
+#   api_key="sk_test_BPL2Sy81u9355r3GlN4XKG2t"
+# ))
 
 
 # Create Account
-print("\n\nAccount:\n")
+# print("\n\nAccount:\n")
 try:
   # account = stripe.Account.create(
   #     type="custom",
@@ -112,27 +112,27 @@ except Exception as e:
 # print(stripe.Charge.retrieve("ch_1DfXjJLkBK9oeUkAfs7NQdFI",
 #                              expand=['customer']))
 
-print("Retrieve Acccount")
-account = stripe.Account.retrieve("acct_1DgdW8IWmP3kfqWG")
-print(account.type)
-print(account.email)
-account.legal_entity.type = "individual"
-account.legal_entity.first_name = "Brian"
-account.legal_entity.last_name = "Loughran"
-account.legal_entity.personal_address.line1 = "41 Cambridge Ave."
-account.legal_entity.personal_address.city = "Denville"
-account.legal_entity.personal_address.state = "NJ"
-account.legal_entity.personal_address.postal_code = "07834"
-account.legal_entity.dob.day = "18"
-account.legal_entity.dob.month = "06"
-account.legal_entity.dob.year = "1995"
-account.legal_entity.ssn_last_4 = "2427"
-print(account.legal_entity.type)
-print(account.legal_entity.first_name)
-print(account.legal_entity.personal_address.line1)
-print(account.legal_entity.dob.year)
-print(account.legal_entity.ssn_last_4)
-account.save()
+# print("Retrieve Acccount")
+# account = stripe.Account.retrieve("acct_1DgdW8IWmP3kfqWG")
+# print(account.type)
+# print(account.email)
+# account.legal_entity.type = "individual"
+# account.legal_entity.first_name = "Brian"
+# account.legal_entity.last_name = "Loughran"
+# account.legal_entity.personal_address.line1 = "41 Cambridge Ave."
+# account.legal_entity.personal_address.city = "Denville"
+# account.legal_entity.personal_address.state = "NJ"
+# account.legal_entity.personal_address.postal_code = "07834"
+# account.legal_entity.dob.day = "18"
+# account.legal_entity.dob.month = "06"
+# account.legal_entity.dob.year = "1995"
+# account.legal_entity.ssn_last_4 = "2427"
+# print(account.legal_entity.type)
+# print(account.legal_entity.first_name)
+# print(account.legal_entity.personal_address.line1)
+# print(account.legal_entity.dob.year)
+# print(account.legal_entity.ssn_last_4)
+# account.save()
 
 # important functions
 def createAccount():
