@@ -207,7 +207,7 @@ def issue_key():
 def index():
     # return render_template('index.html', key=stripe_keys['publishable_key'])
     print("We are in the app route main")
-    return("Lookit my backend!!!")
+    return("Lookit my backend!!! -- I'm Brian!!!")
 
 # account_id = createAccount()
 # updatePersonalInfo(account_id, "Brian", "Loughran", "42 Ardmore Rd", None, "West Hartford", "CT", "06119",
