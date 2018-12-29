@@ -134,6 +134,7 @@ except Exception as e:
 # print(account.legal_entity.ssn_last_4)
 # account.save()
 
+
 # important functions
 def createAccount():
     account = stripe.Account.create(
@@ -142,6 +143,7 @@ def createAccount():
     )
     account_id = account.id
     return account_id
+
 
 def updatePersonalInfo(id, first, last, addressLine1, addressLine2, city, state, zip, dobDay, dobMonth, dobYear, last4):
     account = stripe.Account.retrieve(id)
@@ -161,27 +163,32 @@ def updatePersonalInfo(id, first, last, addressLine1, addressLine2, city, state,
 
     account.save()
 
+
 def acceptServicesAgreement(id, ip):
     account = stripe.Account.retrieve(id)
     account.tos_acceptance.date = int(time.time())
     account.tos_acceptance.ip = ip
     account.save()
 
+
 def deleteAccount(id):
     account = stripe.Account.retrieve(id)
     account.delete()
 
-def createCustomer():
+
+def create_customer():
     customer = stripe.Customer.create()
     customer_id = customer.id
     return customer_id
 
-def addCardToCustomer(customer_id):
+
+def add_card_to_customer(customer_id):
     customer = stripe.Customer.retrieve(customer_id)
     #TODO: figure out how to get the source from swift
     customer.sources.create(source="?")
 
-def customerPaysOwner(customer, amount, destination):
+
+def customer_pays_owner(customer, amount, destination):
     #TODO: Figure out how to get a source to test (see prev TODO)
     stripe.Charge.create(
         amount=amount,
@@ -196,18 +203,33 @@ def customerPaysOwner(customer, amount, destination):
         destination=destination
     )
 
+
+def log_info(message):
+    print(join("\n", message, "\n"))
+    return message
+
+
 @app.route('/issue_key', methods=['POST'])
 def issue_key():
     api_version = request.args['api_version']
     customerId = session['customerId']
-    key = stripe.EphemeralKey.create(customer=customerId, api_version="2017-05-25")
+
+    try:
+        key = stripe.EphemeralKey.create(
+            customer=customerId,
+            # api_version="2017-05-25") # idk what this is
+            api_version=api_version)
+    except stripe.error as e:
+        log_info("Error creating ephemeral key: " + e.message)
+
     return jsonify(key)
 
+
 @app.route('/')
-def index():
+def connect():
     # return render_template('index.html', key=stripe_keys['publishable_key'])
     print("We are in the app route main")
-    return("Lookit my backend!!! -- I'm Brian!!!")
+    return "Lookit my backend!!! -- I'm Brian!!!"
 
 # account_id = createAccount()
 # updatePersonalInfo(account_id, "Brian", "Loughran", "42 Ardmore Rd", None, "West Hartford", "CT", "06119",
