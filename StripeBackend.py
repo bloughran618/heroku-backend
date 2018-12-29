@@ -222,6 +222,7 @@ def issue_key():
     except stripe.error as e:
         log_info("Error creating ephemeral key: " + e.message)
 
+    print(jsonify(key))
     return jsonify(key)
 
 
