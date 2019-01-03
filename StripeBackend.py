@@ -1,6 +1,7 @@
 import stripe
 # import time
 from flask import Flask, session, jsonify, request
+import sys
 
 
 stripe.api_key = "sk_test_BPL2Sy81u9355r3GlN4XKG2t"
@@ -205,7 +206,7 @@ def customer_pays_owner(customer, amount, destination):
 
 
 def log_info(message):
-    print(join("\n", message, "\n"))
+    sys.stdout.write(join("\n", message, "\n"))
     return message
 
 
@@ -227,14 +228,14 @@ def ephemeral_keys():
     except stripe.error as e:
         log_info("Error creating ephemeral key: " + e.message)
 
-    print(jsonify(key))
+    log_info(jsonify(key))
     return jsonify(key)
 
 
 @app.route('/')
 def connect():
     # return render_template('index.html', key=stripe_keys['publishable_key'])
-    print("We are in the app route main")
+    log_info("We are in the app route main")
     return "Lookit my backend!!! -- I'm Brian!!!"
 
 # account_id = createAccount()
