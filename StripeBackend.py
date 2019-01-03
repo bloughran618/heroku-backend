@@ -208,7 +208,8 @@ def customer_pays_owner(customer, amount, destination):
 def log_info(message):
     # sys.stdout.write(message)
     # sys.stdout.write(join("\n", message, "\n"))
-    print(join("\n", message, "\n"))
+    print(message)
+    print()
     sys.stdout.flush()
     return message
 
