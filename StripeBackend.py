@@ -224,7 +224,7 @@ def ephemeral_keys():
 
         customerId = session['customerId']
         log_info(("customerID: " + customerId))
-    except Error as e:
+    except Exception as e:
         log_info("This is the error")
         log_info(e)
 
@@ -262,3 +262,4 @@ def connect():
 # print("done")
 
 # print(issue_key()) # ????????
+
