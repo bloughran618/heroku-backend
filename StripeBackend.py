@@ -208,7 +208,7 @@ def customer_pays_owner(customer, amount, destination):
 def log_info(message):
     # sys.stdout.write(message)
     # sys.stdout.write(join("\n", message, "\n"))
-    print(message)
+    print(join("\n", message, "\n"))
     sys.stdout.flush()
     return message
 
@@ -257,5 +257,3 @@ def connect():
 
 # print(issue_key()) # ????????
 
-sys.stdout.write("This is a test line")
-sys.stdout.flush()
