@@ -209,8 +209,8 @@ def log_info(message):
     return message
 
 
-@app.route('/issue_key', methods=['POST'])
-def issue_key():
+@app.route('/ephemeral_keys', methods=['POST'])
+def ephemeral_keys():
     log_info("Proof we entered the issue key")
 
     api_version = request.args['api_version']
@@ -218,7 +218,7 @@ def issue_key():
 
     log_info("api version: " + api_version)
     log_info(("customerID: " + customerId))
-    
+
     try:
         key = stripe.EphemeralKey.create(
             customer=customerId,
