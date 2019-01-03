@@ -211,9 +211,14 @@ def log_info(message):
 
 @app.route('/issue_key', methods=['POST'])
 def issue_key():
+    log_info("Proof we entered the issue key")
+
     api_version = request.args['api_version']
     customerId = session['customerId']
 
+    log_info("api version: " + api_version)
+    log_info(("customerID: " + customerId))
+    
     try:
         key = stripe.EphemeralKey.create(
             customer=customerId,
