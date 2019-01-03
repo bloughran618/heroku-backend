@@ -217,6 +217,7 @@ def log_info(message):
 @app.route('/ephemeral_keys', methods=['POST'])
 def ephemeral_keys():
     log_info("Proof we entered the issue key")
+    log_info(request.args)
 
     try:
         log_info("api version:")
