@@ -218,11 +218,15 @@ def log_info(message):
 def ephemeral_keys():
     log_info("Proof we entered the issue key")
 
-    api_version = request.args['api_version']
-    log_info("api version: " + api_version)
-    
-    customerId = session['customerId']
-    log_info(("customerID: " + customerId))
+    try:
+        api_version = request.args['api_version']
+        log_info("api version: " + api_version)
+
+        customerId = session['customerId']
+        log_info(("customerID: " + customerId))
+    except Error as e:
+        log_info("This is the error")
+        log_info(e)
 
     try:
         key = stripe.EphemeralKey.create(
