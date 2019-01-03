@@ -219,9 +219,9 @@ def ephemeral_keys():
     log_info("Proof we entered the issue key")
 
     api_version = request.args['api_version']
-    customerId = session['customerId']
-
     log_info("api version: " + api_version)
+    
+    customerId = session['customerId']
     log_info(("customerID: " + customerId))
 
     try:
@@ -242,6 +242,7 @@ def connect():
     log_info("We are in the app route main")
     return "Lookit my backend!!! -- I'm Brian!!!"
 
+
 # account_id = createAccount()
 # updatePersonalInfo(account_id, "Brian", "Loughran", "42 Ardmore Rd", None, "West Hartford", "CT", "06119",
 #               "18", "06", "1995", "2427")
@@ -257,4 +258,3 @@ def connect():
 # print("done")
 
 # print(issue_key()) # ????????
-
