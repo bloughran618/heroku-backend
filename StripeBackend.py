@@ -219,11 +219,13 @@ def ephemeral_keys():
     log_info("Proof we entered the issue key")
 
     try:
+        log_info("api version:")
         api_version = request.args['api_version']
-        log_info("api version: " + api_version)
+        log_info(api_version)
 
+        log_info("customerId:")
         customerId = session['customerId']
-        log_info(("customerID: " + customerId))
+        log_info((customerId))
     except Exception as e:
         log_info("This is the error")
         log_info(e)
