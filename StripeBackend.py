@@ -214,6 +214,13 @@ def log_info(message):
     return message
 
 
+@app.route('/create_customer_token', methods=['POST'])
+def create_customer():
+    customer = stripe.Customer.create()
+    customer_id = customer.id
+    return customer_id
+
+
 @app.route('/ephemeral_keys', methods=['POST'])
 def ephemeral_keys():
     log_info("Proof we entered the issue key")
@@ -235,7 +242,6 @@ def ephemeral_keys():
     try:
         key = stripe.EphemeralKey.create(
             customer=customerId,
-            # api_version="2017-05-25") # idk what this is
             api_version=api_version)
     except stripe.error as e:
         log_info("Error creating ephemeral key: " + e.message)
