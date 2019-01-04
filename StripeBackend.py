@@ -222,7 +222,7 @@ def ephemeral_keys():
 
     try:
         log_info("api version:")
-        api_version = request.args['api_version']
+        api_version = request.form['api_version']
         log_info(api_version)
 
         # log_info("customerId:")
