@@ -216,6 +216,7 @@ def log_info(message):
 
 @app.route('/customer_id', methods=['POST'])
 def create_customer():
+    log_info("Creating a customer ID!!!")
     customer = stripe.Customer.create()
     customer_id = customer.id
     return jsonify(customer_id)
