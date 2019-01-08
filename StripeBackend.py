@@ -221,6 +221,7 @@ def create_customer():
     customer_id = customer.id
     log_info("customer_id: " + customer_id)
     log_info("jsonify customer ID: " + jsonify(customer_id))
+    log_info("now return")
     return jsonify(customer_id)
 
 
@@ -244,7 +245,7 @@ def ephemeral_keys():
     except stripe.error as e:
         log_info("Error creating ephemeral key: " + e.message)
 
-    log_info(jsonify(key))
+    # log_info(jsonify(key))
     return jsonify(key)
 
 
