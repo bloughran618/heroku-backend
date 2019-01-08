@@ -219,6 +219,7 @@ def create_customer():
     log_info("Creating a customer ID!!!")
     customer = stripe.Customer.create()
     customer_id = customer.id
+    log_info(jsonify(customer_id))
     return jsonify(customer_id)
 
 
