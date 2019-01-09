@@ -273,6 +273,12 @@ def connect():
     return "Lookit my backend!!! -- I'm Brian!!!"
 
 
+@app.errorhandler(500)
+def log_error(error):
+    log_info(error)
+    return error
+
+
 
 # account_id = createAccount()
 # updatePersonalInfo(account_id, "Brian", "Loughran", "42 Ardmore Rd", None, "West Hartford", "CT", "06119",
