@@ -230,9 +230,8 @@ def create_customer():
 @app.route('/ephemeral_keys', methods=['POST'])
 def ephemeral_key():
 
-    log_info("api version:")
-    api_version = request.body['api_version']
-    customer_id = request.body['customer_id']
+    api_version = request.form['api_version']
+    customer_id = request.form['customer_id']
     log_info(api_version)
     log_info(customer_id)
 
