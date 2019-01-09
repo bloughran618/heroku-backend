@@ -5,6 +5,7 @@ import sys
 
 
 stripe.api_key = "sk_test_BPL2Sy81u9355r3GlN4XKG2t"
+stripe.api_version = "2015-10-12"
 app = Flask(import_name="SpotBird")
 
 # print("Charge:\n")
@@ -240,6 +241,8 @@ def ephemeral_keys():
         customer_id = request.form['customer_id']
         log_info(api_version)
         log_info(customer_id)
+        
+        print("new API version: " + stripe.api_version)
 
     except Exception as e:
         log_info("This is the error")
@@ -248,7 +251,7 @@ def ephemeral_keys():
     log_info("start creating key")
     key = stripe.EphemeralKey.create(
         customer=customer_id,
-        api_version=api_version)
+        api_version=stripe.api_version)
     log_info("finish creating key")
 
     log_info(key)
