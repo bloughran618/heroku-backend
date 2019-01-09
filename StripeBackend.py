@@ -217,24 +217,18 @@ def log_info(message):
 @app.route('/customer_id', methods=['POST'])
 def create_customer():
     log_info("Creating a customer ID!!!")
-    try:
-        log_info("start creating customer")
-        customer = stripe.Customer.create()
-        customer_id = customer.id
-        log_info("end creating customer")
-    except Exception as e:
-        log_info(e)
+    log_info("start creating customer")
+    customer = stripe.Customer.create()
+    customer_id = customer.id
+    log_info("end creating customer")
     log_info("customer_id: " + customer_id)
-    try:
-        log_info("jsonify customer ID: " + jsonify(customer_id))
-    except Exception as e:
-        log_info("error: " + e)
+    log_info("jsonify customer ID: " + jsonify(customer_id))
     log_info("now return")
     return jsonify(customer_id)
 
 
 @app.route('/ephemeral_keys', methods=['POST'])
-def ephemeral_keys():
+def ephemeral_key():
     try:
         log_info("api version:")
         api_version = request.form['api_version']
@@ -275,7 +269,7 @@ def connect():
 
 @app.errorhandler(500)
 def log_error(error):
-    log_info(error)
+    log_info("yep, here's your error: " + error)
     return error
 
 
