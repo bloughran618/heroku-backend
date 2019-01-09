@@ -264,7 +264,7 @@ def connect():
 
 @app.errorhandler(500)
 def log_error(error):
-    log_info("yep, here's your error: " + error)
+    log_info("yep, here's your error: " + str(error))
     return error
 
 
