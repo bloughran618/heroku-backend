@@ -245,14 +245,11 @@ def ephemeral_keys():
         log_info("This is the error")
         log_info(e)
 
-    try:
-        log_info("start creating key")
-        key = stripe.EphemeralKey.create(
-            customer=customer_id,
-            api_version=api_version)
-        log_info("finish creating key")
-    except stripe.error as e:
-        log_info("Error creating ephemeral key: " + e.message)
+    log_info("start creating key")
+    key = stripe.EphemeralKey.create(
+        customer=customer_id,
+        api_version=api_version)
+    log_info("finish creating key")
 
     log_info(key)
 
