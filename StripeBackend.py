@@ -229,23 +229,19 @@ def create_customer():
 
 @app.route('/ephemeral_keys', methods=['POST'])
 def ephemeral_key():
-    try:
-        log_info("api version:")
-        api_version = request.body['api_version']
-        customer_id = request.body['customer_id']
-        log_info(api_version)
-        log_info(customer_id)
 
-        print("new API version: " + stripe.api_version)
+    log_info("api version:")
+    api_version = request.body['api_version']
+    customer_id = request.body['customer_id']
+    log_info(api_version)
+    log_info(customer_id)
 
-    except Exception as e:
-        log_info("This is the error")
-        log_info(e)
+    print("new API version: " + stripe.api_version)
 
     log_info("start creating key")
     key = stripe.EphemeralKey.create(
         customer=customer_id,
-        api_version=stripe.api_version)
+        api_version=api_version)
     log_info("finish creating key")
 
     log_info(key)
