@@ -256,6 +256,16 @@ def connect():
     return "Lookit my backend!!! -- I'm Brian!!!"
 
 
+def test():
+    string = "123412341234asdf"
+    return jsonify(string)
+
+print("pretest")
+with app.app_context():
+    print(test())
+print("posttest")
+
+
 # account_id = createAccount()
 # updatePersonalInfo(account_id, "Brian", "Loughran", "42 Ardmore Rd", None, "West Hartford", "CT", "06119",
 #               "18", "06", "1995", "2427")
