@@ -260,6 +260,12 @@ def ephemeral_keys():
     return jsonify(key)
 
 
+@app.route('/do_nothing')
+def do_nothing():
+    # do nothing
+    return
+
+
 @app.route('/')
 def connect():
     # return render_template('index.html', key=stripe_keys['publishable_key'])
