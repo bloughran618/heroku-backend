@@ -209,7 +209,6 @@ def log_info(message):
     # sys.stdout.write(message)
     # sys.stdout.write(join("\n", message, "\n"))
     print(message)
-    print()
     sys.stdout.flush()
     return message
 
@@ -218,8 +217,10 @@ def log_info(message):
 def create_customer():
     log_info("Creating a customer ID!!!")
     try:
+        log_info("start creating customer")
         customer = stripe.Customer.create()
         customer_id = customer.id
+        log_info("end creating customer")
     except Exception as e:
         log_info(e)
     log_info("customer_id: " + customer_id)
@@ -242,11 +243,15 @@ def ephemeral_keys():
         log_info(e)
 
     try:
+        log_info("start creating key")
         key = stripe.EphemeralKey.create(
             customer=customer_id,
             api_version=api_version)
+        log_info("finish creating key")
     except stripe.error as e:
         log_info("Error creating ephemeral key: " + e.message)
+
+    log_info(key)
 
     # log_info(jsonify(key))
     return jsonify(key)
@@ -257,6 +262,7 @@ def connect():
     # return render_template('index.html', key=stripe_keys['publishable_key'])
     log_info("We are in the app route main")
     return "Lookit my backend!!! -- I'm Brian!!!"
+
 
 
 # account_id = createAccount()
