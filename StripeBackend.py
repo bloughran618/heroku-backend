@@ -260,7 +260,7 @@ def ephemeral_keys():
     return jsonify(key)
 
 
-@app.route('/do_nothing', method=['POST'])
+@app.route('/do_nothing', methods=['POST'])
 def do_nothing():
     # do nothing
     return
