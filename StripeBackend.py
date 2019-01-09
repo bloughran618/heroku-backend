@@ -224,7 +224,10 @@ def create_customer():
     except Exception as e:
         log_info(e)
     log_info("customer_id: " + customer_id)
-    log_info("jsonify customer ID: " + jsonify(customer_id))
+    try:
+        log_info("jsonify customer ID: " + jsonify(customer_id))
+    except Exception as e:
+        log_info("error: " + e)
     log_info("now return")
     return jsonify(customer_id)
 
