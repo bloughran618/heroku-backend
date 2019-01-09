@@ -217,8 +217,11 @@ def log_info(message):
 @app.route('/customer_id', methods=['POST'])
 def create_customer():
     log_info("Creating a customer ID!!!")
-    customer = stripe.Customer.create()
-    customer_id = customer.id
+    try:
+        customer = stripe.Customer.create()
+        customer_id = customer.id
+    except Exception as e:
+        log_info(e)
     log_info("customer_id: " + customer_id)
     log_info("jsonify customer ID: " + jsonify(customer_id))
     log_info("now return")
