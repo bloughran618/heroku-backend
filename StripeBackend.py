@@ -240,7 +240,7 @@ def ephemeral_key():
     log_info("start creating key")
     key = stripe.EphemeralKey.create(
         customer=customer_id,
-        api_version=api_version)
+        stripe_version=api_version)
     log_info("finish creating key")
 
     log_info(key)
