@@ -222,9 +222,9 @@ def create_customer():
     customer_id = customer.id
     log_info("end creating customer")
     log_info("customer_id: " + customer_id)
-    log_info("jsonify customer ID: " + jsonify(customer_id))
+    log_info("jsonify customer ID: " + jsonify(customer_id=customer_id))
     log_info("now return")
-    return jsonify(customer_id)
+    return jsonify(customer_id=customer_id)
 
 
 @app.route('/ephemeral_keys', methods=['POST'])
