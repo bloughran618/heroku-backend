@@ -249,6 +249,22 @@ def ephemeral_key():
     return jsonify(key)
 
 
+@app.route('/account_id', methods=['POST'])
+def create_account():
+    log_info("Creating a account ID!!!")
+    log_info("start creating account")
+    account = stripe.Account.create(
+        country="US",
+        type="custom"
+    )
+    account_id = account.id
+    log_info("end creating account")
+    log_info("account id: " + account_id)
+    # log_info("jsonify customer ID: " + jsonify(customer_id=customer_id).dumps())
+    log_info("now return")
+    return jsonify(account_id=account_id)
+
+
 @app.route('/do_nothing', methods=['POST'])
 def do_nothing():
     # do nothing
