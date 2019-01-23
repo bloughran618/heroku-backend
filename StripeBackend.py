@@ -277,6 +277,7 @@ def add_bank_info():
     log_info("Found associated stripe account")
     account.account_token = account_token
     log_info("Successfully associated account token")
+    account.save()
     return jsonify(success="success")
 
 
@@ -315,4 +316,3 @@ def log_error(error):
 # print("done")
 
 # print(issue_key()) # ????????
-
