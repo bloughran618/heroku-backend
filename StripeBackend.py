@@ -265,7 +265,7 @@ def create_account():
     return jsonify(account_id=account_id)
 
 
-@app.route('/add_bank_account', methods=['POST'])
+@app.route('/add_bank_info', methods=['POST'])
 def add_bank_info():
     log_info("Adding tokenized bank info")
     account_id = request.form['account_id']
