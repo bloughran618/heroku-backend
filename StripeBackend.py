@@ -265,6 +265,19 @@ def create_account():
     return jsonify(account_id=account_id)
 
 
+@app.route('/add_bank_info', method=['POST'])
+def add_bank_info():
+    log_info("Adding tokenized bank info")
+    account_id = request.form['account_id']
+    account_token = request.form['account_token']
+    log_info("form info successfully loaded")
+    account = Stripe.Account.retrieve(account_id)
+    log_info("Found associated stripe account")
+    account.account_token = account_token
+    log_info("Successfully associated account token")
+    return
+
+
 @app.route('/do_nothing', methods=['POST'])
 def do_nothing():
     # do nothing
