@@ -267,21 +267,17 @@ def create_account():
 
 @app.route('/add_bank_info', methods=['POST'])
 def add_bank_info():
-    try:
-        log_info("Adding tokenized bank info")
-        log_info(request.form)
-        account_id = request.form['account_id']
-        log_info("Got one form info")
-        account_token = request.form['account_token']
-        log_info("form info successfully loaded")
-        account = stripe.Account.retrieve(account_id)
-        log_info("Found associated stripe account")
-        account.account_token = account_token
-        log_info("Successfully associated account token")
-    except Exception as e:
-        log_info("Well we have found an error...")
-        log_info(e)
-    return
+    log_info("Adding tokenized bank info")
+    log_info(request.form)
+    account_id = request.form['account_id']
+    log_info("Got one form info")
+    account_token = request.form['account_token']
+    log_info("form info successfully loaded")
+    account = stripe.Account.retrieve(account_id)
+    log_info("Found associated stripe account")
+    account.account_token = account_token
+    log_info("Successfully associated account token")
+    return jsonify("success")
 
 
 @app.route('/do_nothing', methods=['POST'])
