@@ -277,7 +277,7 @@ def add_bank_info():
     log_info("Found associated stripe account")
     account.account_token = account_token
     log_info("Successfully associated account token")
-    return "success"
+    return jsonify(success="success")
 
 
 @app.route('/do_nothing', methods=['POST'])
