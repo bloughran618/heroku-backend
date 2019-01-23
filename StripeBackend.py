@@ -269,6 +269,7 @@ def create_account():
 def add_bank_info():
     log_info("Adding tokenized bank info")
     account_id = request.form['account_id']
+    log_info("Got one form info")
     account_token = request.form['account_token']
     log_info("form info successfully loaded")
     account = Stripe.Account.retrieve(account_id)
