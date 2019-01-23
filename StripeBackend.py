@@ -269,6 +269,7 @@ def create_account():
 def add_bank_info():
     try:
         log_info("Adding tokenized bank info")
+        log_info(request.form)
         account_id = request.form['account_id']
         log_info("Got one form info")
         account_token = request.form['account_token']
