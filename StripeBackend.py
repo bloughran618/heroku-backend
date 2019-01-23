@@ -274,7 +274,7 @@ def add_bank_info():
         log_info("Got one form info")
         account_token = request.form['account_token']
         log_info("form info successfully loaded")
-        account = Stripe.Account.retrieve(account_id)
+        account = stripe.Account.retrieve(account_id)
         log_info("Found associated stripe account")
         account.account_token = account_token
         log_info("Successfully associated account token")
