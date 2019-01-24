@@ -271,11 +271,12 @@ def add_bank_info():
     log_info(request.form)
     account_id = request.form['account_id']
     log_info("Got one form info")
-    account_token = request.form['account_token']
+    acct_token = request.form['account_token']
     log_info("form info successfully loaded")
     account = stripe.Account.retrieve(account_id)
     log_info("Found associated stripe account")
-    account.account_token = account_token
+    log_info(acct_token)
+    account.account_token = acct_token
     log_info("Successfully associated account token")
     account.save()
     return jsonify(success="success")
