@@ -278,8 +278,21 @@ def add_bank_info():
     log_info(acct_token)
     account.external_accounts.create(external_account=acct_token, default_for_currency=True)
     log_info("Successfully associated account token")
+    delete_all_external_accounts_except_default(account_id)
+    log_info("Cleaned up other accounts")
     account.save()
     return jsonify(success="success")
+
+
+# helper to add_bank_info
+def delete_all_external_accounts_except_default(account_id):
+    account = stripe.Account.retrieve(account_id)
+    accounts = account.external_accounts.list()
+    for acct in accounts:
+        try:
+            account.external_accounts.retrieve(acct.id).delete()
+        except stripe.error.InvalidRequestError:
+            pass
 
 
 @app.route('/do_nothing', methods=['POST'])
@@ -317,11 +330,4 @@ def log_error(error):
 # print("done")
 
 # print(issue_key()) # ????????
-
-account = stripe.Account.retrieve("acct_1DvaPmDZCtueSval")
-# print(account.external_accounts.list())
-# accounts = account.external_accounts.list()
-# for acct in accounts:
-#     print(acct.id)
-#     account.external_accounts.retrieve(acct.id).delete()
 
