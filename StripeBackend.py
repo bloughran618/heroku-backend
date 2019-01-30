@@ -278,6 +278,7 @@ def add_connect_info():
     log_info(acct_token)
     account.account_token = acct_token
     log_info("Successfully associated account token")
+    log_info(account)
     account.save()
     return jsonify(success="success")
 
