@@ -199,7 +199,10 @@ def log_info(message):
 
 
 @app.route('/spot_purchase', methods=['POST'])
-def customer_pays_owner(source_id, destination_id, amount):
+def customer_pays_owner():
+    source_id = request.form['source_id']
+    destination_id = request.form['destination_id']
+    amount = request.form['amount']
 
     log_info("creating charge")
     stripe.Charge.create(
