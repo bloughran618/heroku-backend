@@ -198,7 +198,7 @@ def log_info(message):
     return message
 
 
-@app.route('spot_purchase', methods=['POST'])
+@app.route('/spot_purchase', methods=['POST'])
 def customer_pays_owner(source_id, destination_id, amount):
 
     log_info("creating charge")
@@ -342,7 +342,7 @@ def log_error(error):
 # updatePersonalInfo(account_id, "Brian", "Loughran", "42 Ardmore Rd", None, "West Hartford", "CT", "06119",
 #               "18", "06", "1995", "2427")
 
-# customerPaysOwner("cus_E9HX8Dbeo9Af77", 1500, "acct_1DgdW8IWmP3kfqWG")
+customer_pays_owner("cus_E9HX8Dbeo9Af77", "acct_1DgdW8IWmP3kfqWG", 1500)
 
 
 # print("Create an account and accept agreement")
