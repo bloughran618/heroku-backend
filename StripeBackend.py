@@ -190,28 +190,33 @@ def add_card_to_customer(customer_id):
     customer.sources.create(source="?")
 
 
-def customer_pays_owner(customer, amount, destination):
-    #TODO: Figure out how to get a source to test (see prev TODO)
-    stripe.Charge.create(
-        amount=amount,
-        currency="usd",
-        customer=customer,  # obtained with Stripe.js
-        description="Testing..."
-    )
-    amount = int(round(amount*0.85)) # take some money for yourself :)
-    stripe.Transfer.create(
-        amount=amount,
-        currency="usd",
-        destination=destination
-    )
-
-
 def log_info(message):
     # sys.stdout.write(message)
     # sys.stdout.write(join("\n", message, "\n"))
     print(message)
     sys.stdout.flush()
     return message
+
+
+@app.route('spot_purchase', methods=['POST'])
+def customer_pays_owner(source_id, destination_id, amount):
+
+    log_info("creating charge")
+    stripe.Charge.create(
+        amount=amount,
+        currency="usd",
+        customer=source_id,  # obtained with Stripe.js
+        description="Testing..."
+    )
+    log_info("creating transfer")
+    amount = int(round(amount*0.85)) # take some money for yourself :)
+    stripe.Transfer.create(
+        amount=amount,
+        currency="usd",
+        destination=destination_id
+    )
+    log_info("success")
+    return jsonify(success="success")
 
 
 @app.route('/customer_id', methods=['POST'])
