@@ -261,8 +261,8 @@ def ephemeral_key():
 def charge():
     payload = request.form['source']
     # just debug to see what I have so far...
-    log_info(payload)
-    return jsonify("Charge successfully created")
+    log_info("This is the payload: " + payload)
+    return jsonify(message="Charge successfully created")
 
 
 @app.route('/account_id', methods=['POST'])
