@@ -262,7 +262,7 @@ def charge():
     payload = request.form['source']
     # just debug to see what I have so far...
     log_info(payload)
-    return
+    return jsonify("Charge successfully created")
 
 
 @app.route('/account_id', methods=['POST'])
