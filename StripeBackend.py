@@ -262,6 +262,11 @@ def charge():
     payload = request.form['source']
     # just debug to see what I have so far...
     log_info("This is the payload: " + payload)
+
+    source = payload['source']
+    log_info("This is the source: " + source)
+    # just put the ruby code from github in python here...
+
     return jsonify(message="Charge successfully created")
 
 
