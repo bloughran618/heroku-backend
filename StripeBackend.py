@@ -198,21 +198,35 @@ def log_info(message):
     return message
 
 
-@app.route('/spot_purchase', methods=['POST'])
-def customer_pays_owner():
-    source_id = request.form['source_id']
+# @app.route('/spot_purchase', methods=['POST'])
+# def customer_pays_owner():
+#     source_id = request.form['source_id']
+#     destination_id = request.form['destination_id']
+#     amount = request.form['amount']
+#
+#     log_info("creating charge")
+#     stripe.Charge.create(
+#         amount=amount,
+#         currency="usd",
+#         customer=source_id,  # obtained with Stripe.js
+#         description="Testing..."
+#     )
+#     log_info("creating transfer")
+#     amount = int(round(amount*0.85)) # take some money for yourself :)
+#     stripe.Transfer.create(
+#         amount=amount,
+#         currency="usd",
+#         destination=destination_id
+#     )
+#     log_info("success")
+#     return jsonify(success="success")
+
+@app.route('/pay_owner', methods['POST'])
+def pay_owner():
     destination_id = request.form['destination_id']
     amount = request.form['amount']
 
-    log_info("creating charge")
-    stripe.Charge.create(
-        amount=amount,
-        currency="usd",
-        customer=source_id,  # obtained with Stripe.js
-        description="Testing..."
-    )
     log_info("creating transfer")
-    amount = int(round(amount*0.85)) # take some money for yourself :)
     stripe.Transfer.create(
         amount=amount,
         currency="usd",
