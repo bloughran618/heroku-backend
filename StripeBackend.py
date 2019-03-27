@@ -221,7 +221,7 @@ def log_info(message):
 #     log_info("success")
 #     return jsonify(success="success")
 
-@app.route('/pay_owner', methods['POST'])
+@app.route('/pay_owner', methods=['POST'])
 def pay_owner():
     destination_id = request.form['destination_id']
     amount = request.form['amount']
