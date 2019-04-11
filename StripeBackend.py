@@ -1,5 +1,5 @@
 import stripe
-# import time
+import time
 from flask import Flask, session, jsonify, request
 import sys
 
