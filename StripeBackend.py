@@ -317,7 +317,9 @@ def add_connect_info():
     log_info("Adding tokenized connect info")
     log_info(request.form)
     account_id = request.form['account_id']
-    log_info("Got the account ID")
+    log_info("Got the account ID: " + account_id)
+    ip_address = request.form['ip_address']
+    log_info("Got the ip address: " + ip_address)
     acct_token = request.form['info_token']
     log_info("form info successfully loaded")
     account = stripe.Account.retrieve(account_id)
@@ -325,6 +327,8 @@ def add_connect_info():
     log_info(acct_token)
     account.account_token = acct_token
     log_info("Successfully associated account token")
+    acceptServicesAgreement(account_id, ip_address)
+    log_info("Successfully accepted TOS")
     log_info(account)
     account.save()
     return jsonify(success="success")
