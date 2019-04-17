@@ -367,8 +367,11 @@ def delete_all_external_accounts_except_default(account_id):
 
 @app.route('/recieve_webhook', methods=['POST'])
 def recieve_webhook():
-    event_json = json.loads(request.body)
-    log_info(event_json)
+    # event_json = json.loads(request.body)
+    # log_info(event_json)
+
+    payload = request.data.decode("utf-8")
+    log_info(payload)
     return Response(status=200)
 
 
