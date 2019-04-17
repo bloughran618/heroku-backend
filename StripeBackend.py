@@ -4,8 +4,9 @@ from flask import Flask, session, jsonify, request, Response
 import sys
 import json
 
-
+# This NEEDS to be set to os.environ.get when we go to prod
 stripe.api_key = "sk_test_BPL2Sy81u9355r3GlN4XKG2t"
+webhook_secrat = "whsec_CF4LHZFaZ27AEtTMk2faZN7yK2Rimxt4"
 stripe.api_version = "2018-05-21"
 app = Flask(import_name="SpotBird")
 
@@ -372,6 +373,17 @@ def recieve_webhook():
 
     payload = request.data.decode("utf-8")
     log_info("The following is the payload: \n" + payload)
+
+    signature = request.headers.get("Stripe-Signature", None)
+
+    try:
+        event = stripe.Webhook.construct_event(payload, signature, webhook_secrat)
+    except ValueError:
+        log_info("Error when decoding the event!")
+        return "Bad payload", 400
+    except stripe.error.SignatureVerificationError:
+        log_info("Bad Signature!")
+        return "Bad signature", 400
     return Response(status=200)
 
 
