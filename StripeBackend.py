@@ -371,7 +371,7 @@ def recieve_webhook():
     # log_info(event_json)
 
     payload = request.data.decode("utf-8")
-    log_info(payload)
+    log_info("The following is the payload: \n" + payload)
     return Response(status=200)
 
 
