@@ -384,6 +384,13 @@ def recieve_webhook():
     except stripe.error.SignatureVerificationError:
         log_info("Bad Signature!")
         return "Bad signature", 400
+
+    log_info(
+        "Received event: id={id}, type={type}".format(
+            id=event.id, type=event.type
+        )
+    )
+
     return Response(status=200)
 
 
