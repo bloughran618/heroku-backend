@@ -7,7 +7,7 @@ import json
 # This NEEDS to be set to os.environ.get when we go to prod
 stripe.api_key = "sk_test_BPL2Sy81u9355r3GlN4XKG2t"
 webhook_secrat = "whsec_CF4LHZFaZ27AEtTMk2faZN7yK2Rimxt4"
-stripe.api_version = "2018-05-21"
+stripe.api_version = "2019-03-14" # "2018-05-21"
 app = Flask(import_name="SpotBird")
 
 # print("Charge:\n")
@@ -384,6 +384,7 @@ def recieve_webhook():
     except stripe.error.SignatureVerificationError:
         log_info("Bad Signature!")
         return "Bad signature", 400
+
 
     log_info(
         "Received event: id={id}, type={type}".format(
