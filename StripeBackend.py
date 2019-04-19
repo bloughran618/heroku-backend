@@ -366,6 +366,7 @@ def delete_all_external_accounts_except_default(account_id):
             pass
 
 
+# should not do anything, just keepint it around in case I need it in the future
 @app.route('/recieve_webhook', methods=['POST'])
 def recieve_webhook():
     # event_json = json.loads(request.body)
@@ -393,6 +394,20 @@ def recieve_webhook():
     )
 
     return Response(status=200)
+
+
+@app.route('/check_stripe_account', methods=['POST'])
+def check_stripe_account():
+    account_id = request.form['account_id']
+
+    account = stripe.Account.retrieve(account_id)
+    log_info(account)
+    enabledBool = account["payouts_enabled"]
+    log_info("Is the account enabled? : " + str(enabledBool))
+    due = account["requirements"]["currently_due"]
+    log_info("This is what is due: " + str(due))
+
+    return jsonify(enabled=enabledBool, due=due)
 
 
 @app.route('/do_nothing', methods=['POST'])
@@ -430,4 +445,3 @@ def log_error(error):
 # print("done")
 
 # print(issue_key()) # ????????
-
