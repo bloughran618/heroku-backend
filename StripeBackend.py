@@ -407,6 +407,8 @@ def check_stripe_account():
     due = account["requirements"]["currently_due"]
     log_info("This is what is due: " + str(due))
 
+    log_info(jsonify(enabled=enabledBool, due=due))
+
     return jsonify(enabled=enabledBool, due=due)
 
 
@@ -445,3 +447,10 @@ def log_error(error):
 # print("done")
 
 # print(issue_key()) # ????????
+
+account = stripe.Account.retrieve("acct_1EKc67BuN2uG9scf")
+print(account)
+enabledBool = account["payouts_enabled"]
+print("Is the account enabled? : " + str(enabledBool))
+due = account["requirements"]["currently_due"]
+print("This is what is due: " + str(due))
