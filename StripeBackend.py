@@ -399,15 +399,11 @@ def recieve_webhook():
 @app.route('/check_stripe_account', methods=['POST'])
 def check_stripe_account():
     account_id = request.form['account_id']
-
     account = stripe.Account.retrieve(account_id)
-    log_info(account)
     enabledBool = account["payouts_enabled"]
     log_info("Is the account enabled? : " + str(enabledBool))
     due = account["requirements"]["currently_due"]
     log_info("This is what is due: " + str(due))
-
-    log_info(jsonify(enabled=enabledBool, due=due))
 
     return jsonify(enabled=enabledBool, due=due)
 
@@ -447,10 +443,3 @@ def log_error(error):
 # print("done")
 
 # print(issue_key()) # ????????
-
-account = stripe.Account.retrieve("acct_1EKc67BuN2uG9scf")
-print(account)
-enabledBool = account["payouts_enabled"]
-print("Is the account enabled? : " + str(enabledBool))
-due = account["requirements"]["currently_due"]
-print("This is what is due: " + str(due))
