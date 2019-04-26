@@ -304,7 +304,8 @@ def create_account():
     log_info("start creating account")
     account = stripe.Account.create(
         country="US",
-        type="custom"
+        type="custom",
+        requested_capabilities=['platform_payments']
     )
     account_id = account.id
     log_info("end creating account")
@@ -443,3 +444,7 @@ def log_error(error):
 # print("done")
 
 # print(issue_key()) # ????????
+
+account = stripe.Account.retrieve("acct_1EKc67BuN2uG9scf")
+print(account)
+
