@@ -416,6 +416,7 @@ def save_ssn():
     encrypted_ssn = int(request.form['encrypted_ssn'])
     decrypted_ssn = int((encrypted_ssn - 373587911) / 179424691)
     print(decrypted_ssn)
+    print(account)
     return jsonify(success="success")
 
 
