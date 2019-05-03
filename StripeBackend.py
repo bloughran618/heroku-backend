@@ -7,6 +7,7 @@ import json
 # This NEEDS to be set to os.environ.get when we go to prod
 stripe.api_key = "sk_test_BPL2Sy81u9355r3GlN4XKG2t"
 webhook_secrat = "whsec_CF4LHZFaZ27AEtTMk2faZN7yK2Rimxt4"
+RNCryptor_secret = "vFxAOvA246L6Syk7Cl426254C-sMJGxk"
 stripe.api_version = "2019-03-14" # "2018-05-21"
 app = Flask(import_name="SpotBird")
 
@@ -408,6 +409,16 @@ def check_stripe_account():
 
     return jsonify(enabled=enabledBool, due=due)
 
+@app.route('/save_ssn', methods=['POST'])
+def save_ssn():
+    account_id = request.form['account_id']
+    account = stripe.Account.retrieve(account_id)
+    encrypted_ssn = request.form['encrypted_ssn']
+    decrypted_ssn = (encrypted_ssn - 373587911) / 179424691
+    print(decrypted_ssn)
+    return jsonify(success="success")
+
+
 
 @app.route('/do_nothing', methods=['POST'])
 def do_nothing():
@@ -445,6 +456,6 @@ def log_error(error):
 
 # print(issue_key()) # ????????
 
-account = stripe.Account.retrieve("acct_1EKc67BuN2uG9scf")
-print(account)
+# account = stripe.Account.retrieve("acct_1EKc67BuN2uG9scf")
+# print(account)
 
