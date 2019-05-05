@@ -415,7 +415,7 @@ def save_ssn():
     account = stripe.Account.retrieve(account_id)
     encrypted_ssn = int(request.form['encrypted_ssn'])
     decrypted_ssn = int((encrypted_ssn - 373587911) / 179424691)
-    print("SSN decrypted: " + str(decrypted_ssn))
+    print("SSN decrypted")
     account["individual"]["id_number"] = decrypted_ssn
     account.save()
     return jsonify(success="success")
