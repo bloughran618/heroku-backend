@@ -415,8 +415,9 @@ def save_ssn():
     account = stripe.Account.retrieve(account_id)
     encrypted_ssn = int(request.form['encrypted_ssn'])
     decrypted_ssn = int((encrypted_ssn - 373587911) / 179424691)
-    print(decrypted_ssn)
-    print(account)
+    print("SSN decrypted: " + str(decrypted_ssn))
+    account["individual"]["id_number"] = decrypted_ssn
+    account.save()
     return jsonify(success="success")
 
 
@@ -457,6 +458,12 @@ def log_error(error):
 
 # print(issue_key()) # ????????
 
-# account = stripe.Account.retrieve("acct_1EKc67BuN2uG9scf")
+# account = stripe.Account.retrieve("acct_1EIRBeFqSeXgmrEv")
 # print(account)
+# # account.individual.id_number = 123456789
+# account["individual"]["id_number"] = 123456789
+# account.save()
+# print("-------------------------------------------------------------------------\n"
+#       + str(account))
+
 
