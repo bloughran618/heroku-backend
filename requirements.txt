@@ -8,3 +8,4 @@ psycopg2
 firebase
 firebase_admin
 python_jwt
+gcloud
