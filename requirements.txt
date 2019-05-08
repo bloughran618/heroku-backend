@@ -5,3 +5,5 @@ requests
 stripe
 gunicorn
 psycopg2
+firebase
+firebase_admin
