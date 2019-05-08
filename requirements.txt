@@ -11,4 +11,4 @@ python_jwt
 gcloud
 sseclient
 crypto
-pycrytpo
+pycrypto
