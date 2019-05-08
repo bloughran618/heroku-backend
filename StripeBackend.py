@@ -6,8 +6,7 @@ import json
 try:
     import firebase
 except Exception as e:
-    log_info(e)
-import firebase_admin
+    log_info(" This is the exception: \n" + e)
 
 # This NEEDS to be set to os.environ.get when we go to prod
 stripe.api_key = "sk_test_BPL2Sy81u9355r3GlN4XKG2t"
