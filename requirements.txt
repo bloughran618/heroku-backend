@@ -10,4 +10,5 @@ firebase_admin
 python_jwt
 gcloud
 sseclient
+crypto
 pycrytpo
