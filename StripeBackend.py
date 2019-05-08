@@ -3,6 +3,8 @@ import time
 from flask import Flask, session, jsonify, request, Response
 import sys
 import json
+import firebase
+import firebase_admin
 
 # This NEEDS to be set to os.environ.get when we go to prod
 stripe.api_key = "sk_test_BPL2Sy81u9355r3GlN4XKG2t"
@@ -440,6 +442,9 @@ def log_error(error):
     log_info("yep, here's your error: " + str(error))
     return error
 
+
+def fetch_from_firebase():
+    return
 
 
 # account_id = createAccount()
