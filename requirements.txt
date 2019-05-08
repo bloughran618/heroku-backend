@@ -10,4 +10,4 @@ firebase_admin
 python_jwt
 gcloud
 sseclient
-Crypto.PublicKey
+Crypto
