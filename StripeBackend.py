@@ -472,4 +472,4 @@ def fetch_from_firebase():
 try:
     import firebase
 except Exception as e:
-    log_info(" This is the exception: \n" + e)
+    log_info(" This is the exception: \n" + str(e))
