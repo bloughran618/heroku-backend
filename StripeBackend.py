@@ -3,7 +3,10 @@ import time
 from flask import Flask, session, jsonify, request, Response
 import sys
 import json
-import firebase
+try:
+    import firebase
+except Exception as e:
+    log_info(e)
 import firebase_admin
 
 # This NEEDS to be set to os.environ.get when we go to prod
