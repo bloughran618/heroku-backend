@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "spotbirdparking",
+  "private_key_id": "a8ca8edb2fe43b3a104d110c3c09bd542ff88fad",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC/iwFnDZZxIHYX\nGueAMHbNutyJJKse15LVbd56jEainY5XEQrFnjSE6QFFAKH6HLZNmAXHnyRMyLzC\n0FYn11tFjjXdXeQ/E3+Mmu/ZESV8ELKKO8lBws31qMV3Jxb2YmZIiijHhZTINE9a\nzKJ1/OkgF5DTQWmCn0+1oKLvlFCMA7UYvjLOvKI+6qxQfLYs9y/HOJJiwYsyFNMR\nkQ8K2CKXwRojzMfLcX4etH/lpFv89Qk+s3xnSDUfDhWEjYnMOvjrz+ulDiGupQNg\nz5biS0CodmDRiSXOEYVrrgh1QMnsIY9UJx/6A8lTuFPFT7UUWyFtws3XXtxMeQ2i\nS4IbxgiXAgMBAAECggEASFNqR6nzTSs3PBk+IgLq0VtGTAjLDr3S5YFzmS2fvGam\n6Ux3l1BaP3emMZKAFyvBUMJfKFX4xH+l+x/k8G1auwRsZXa/KWwo5QRaHcpiL5s0\nd4sEvy6aS7EbQxdBDe7w9WIp7NENcZ2C+2O60reZpbMQThzshNS4KfqKm9GSqpNR\nntU81RxTXxhw96ej22YleZ0qgi3XlOFwDspm/E3ZCLU8OWXEkwp0j6Ek//JiyNs8\nPbHxwoO7W8c9IjwRoOxFpiZ6ZR1KwNNaxlMoyUjlqQhiu0IKB/hQ/p6+u2ilaLi5\nVGoSlsoeBLT6EP95VzvrmwQlMnZZ+PQuCw17kr1vDQKBgQD2YYOyBTh6AITIhyKR\nBvmz/E8EYPwmnWyx5fL+Z7qRltMvyWMOKk08NFFwesUDRIuKm9WBbYNWGCL90Uth\nTEd1PyFknfHcehwSrUU7/ippdOU6uWdOHOwJsSyY+UJZuqnA0CBsXNsrkbPD2fJ7\nZ8hCmq70xGwCSnxBWeEOexLi3QKBgQDHBWgI0FT2xndkiG/RStFmbCwbeuv0urcm\np+63U9l1ERCKXzFB/iGw3m+8jx9FPQiRMMQiVU+k5iERZ9ePhQF4CDuXCmyNo5Nw\ndCsVItT8u8MjRhd+ofYxJcznLas0gSnoum+pMV4se6rahEbfI3r9qc8j3dO8HO8z\nG9bitXzgAwKBgH1U2aNjWHlnbiR76a+QttFCFggKNfqGtlZAvT2BEr0g1klGzqbU\nCfoIOy1WpoWlBr75ysBOLzNKj/JB13ClVuxjst72IaSgUUuG7OM5xeVjW4Bl9BEe\nUUwU3rTqh0AR3myA8x1slukw8xs78UepYYvQGBPXH4KC1XaA/CVboh3ZAoGBAMRx\nYa7RdAvg+hgRU82Ru/8M5rx5KE33vrA5MjdiXFJg9aKfM0+gOEEMTd4gpw0AoWQu\nbmo1KtfpDtrPVMYk0r5X4fnEIEHuI6nsAFpsdy6/Zm160dX8p7T7SrUlLsg0ddlx\nrKWkRQBDUPE/f3Tg4JVg90S/wC79oF0iLYi4+vlhAoGAWblo0PIM+jfj5ZdASDtp\nxJjRmBkvI8NnNIvGmiLlc3lUN/Vic+mr9BlT+bbiG94NM3NnnWU1tzAEM0mrcyGS\npBEVieI444X5GSSacSssVB2TmeFu4aTMmpESNaRn1sldvn6YqyJXTmCsc7EEDf4U\npzARNcLXfrjHnu0BDHRmiKg=\n-----END PRIVATE KEY-----\n",
+  "client_email": "spotbirdparking@spotbirdparking.iam.gserviceaccount.com",
+  "client_id": "106990868654476087091",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/spotbirdparking%40spotbirdparking.iam.gserviceaccount.com"
+}

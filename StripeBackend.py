@@ -1,12 +1,15 @@
+import sys
 import stripe
 import time
 from flask import Flask, session, jsonify, request, Response
 import sys
 import json
 import firebase
+import pyrebase
 
 # This NEEDS to be set to os.environ.get when we go to prod
 stripe.api_key = "sk_test_BPL2Sy81u9355r3GlN4XKG2t"
+print("This is the sys arg: " + sys.argv[1])
 webhook_secrat = "whsec_CF4LHZFaZ27AEtTMk2faZN7yK2Rimxt4"
 RNCryptor_secret = "vFxAOvA246L6Syk7Cl426254C-sMJGxk"
 stripe.api_version = "2019-03-14" # "2018-05-21"
@@ -443,6 +446,7 @@ def log_error(error):
 
 
 def fetch_from_firebase():
+
     return
 
 
@@ -474,3 +478,5 @@ def fetch_from_firebase():
 #     import firebase
 # except Exception as e:
 #     log_info(" This is the exception: \n" + str(e))
+
+fetch_from_firebase()
