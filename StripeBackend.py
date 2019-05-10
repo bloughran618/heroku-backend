@@ -5,10 +5,12 @@ from flask import Flask, session, jsonify, request, Response
 import sys
 import json
 # import firebase
+import pyrebase
 
 # This NEEDS to be set to os.environ.get when we go to prod
 stripe.api_key = "sk_test_BPL2Sy81u9355r3GlN4XKG2t"
-print("This is the sys arg: " + str(sys.argv))
+print("This is the sys arg: " + api_key)
+print("This is my last name: " + last_name)
 webhook_secrat = "whsec_CF4LHZFaZ27AEtTMk2faZN7yK2Rimxt4"
 RNCryptor_secret = "vFxAOvA246L6Syk7Cl426254C-sMJGxk"
 stripe.api_version = "2019-03-14" # "2018-05-21"
@@ -479,8 +481,3 @@ def fetch_from_firebase():
 #     log_info(" This is the exception: \n" + str(e))
 
 fetch_from_firebase()
-
-try:
-    import pyrebase
-except Exception as e:
-    log_info("This is the exception: " + str(e))
