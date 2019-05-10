@@ -7,12 +7,12 @@ import sys
 import json
 # import firebase
 # import pyrebase
-from boto.s3.connection import S3Connection
+
 
 # This NEEDS to be set to os.environ.get when we go to prod
 stripe.api_key = "sk_test_BPL2Sy81u9355r3GlN4XKG2t"
-print("This is the sys arg: " + S3Connection(os.environ["api_key"]))
-print("This is my last name: " + last_name)
+print("This is the sys arg: " + os.environ.get("api_key"))
+print("This is my last name: " + os.environ.get("last_name"))
 webhook_secrat = "whsec_CF4LHZFaZ27AEtTMk2faZN7yK2Rimxt4"
 RNCryptor_secret = "vFxAOvA246L6Syk7Cl426254C-sMJGxk"
 stripe.api_version = "2019-03-14" # "2018-05-21"
