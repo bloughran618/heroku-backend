@@ -10,7 +10,6 @@ firebase_admin
 python_jwt
 gcloud
 sseclient
-pycrypto
 crypto==1.4.0
 requests_toolbelt
 pyrebase
