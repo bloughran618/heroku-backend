@@ -8,7 +8,7 @@ import json
 
 # This NEEDS to be set to os.environ.get when we go to prod
 stripe.api_key = "sk_test_BPL2Sy81u9355r3GlN4XKG2t"
-print("This is the sys arg: " + sys.argv)
+print("This is the sys arg: " + str(sys.argv))
 webhook_secrat = "whsec_CF4LHZFaZ27AEtTMk2faZN7yK2Rimxt4"
 RNCryptor_secret = "vFxAOvA246L6Syk7Cl426254C-sMJGxk"
 stripe.api_version = "2019-03-14" # "2018-05-21"
