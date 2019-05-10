@@ -13,3 +13,4 @@ sseclient
 crypto==1.4.0
 requests_toolbelt
 pyrebase
+boto
