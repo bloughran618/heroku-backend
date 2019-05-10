@@ -5,10 +5,6 @@ from flask import Flask, session, jsonify, request, Response
 import sys
 import json
 # import firebase
-try:
-    import pyrebase
-except Exception as e:
-    log_info("This is the exception: " + str(e))
 
 # This NEEDS to be set to os.environ.get when we go to prod
 stripe.api_key = "sk_test_BPL2Sy81u9355r3GlN4XKG2t"
@@ -483,3 +479,8 @@ def fetch_from_firebase():
 #     log_info(" This is the exception: \n" + str(e))
 
 fetch_from_firebase()
+
+try:
+    import pyrebase
+except Exception as e:
+    log_info("This is the exception: " + str(e))
