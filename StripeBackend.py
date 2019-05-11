@@ -6,15 +6,12 @@ from flask import Flask, session, jsonify, request, Response
 import sys
 import json
 # import firebase
-# import pyrebase
+import pyrebase
 
 
 # This NEEDS to be set to os.environ.get when we go to prod
-stripe.api_key = "sk_test_BPL2Sy81u9355r3GlN4XKG2t"
-print("This is the sys arg: " + os.environ.get("api_key"))
-print("This is my last name: " + os.environ.get("last_name"))
-webhook_secrat = "whsec_CF4LHZFaZ27AEtTMk2faZN7yK2Rimxt4"
-RNCryptor_secret = "vFxAOvA246L6Syk7Cl426254C-sMJGxk"
+stripe.api_key = os.environ.get("api_key")
+webhook_secrat = ""
 stripe.api_version = "2019-03-14" # "2018-05-21"
 app = Flask(import_name="SpotBird")
 
@@ -148,61 +145,59 @@ except Exception as e:
 
 
 # important functions
-def createAccount():
-    account = stripe.Account.create(
-        country="US",
-        type="custom"
-    )
-    account_id = account.id
-    return account_id
+# def createAccount():
+#     account = stripe.Account.create(
+#         country="US",
+#         type="custom"
+#     )
+#     account_id = account.id
+#     return account_id
 
 
-def updatePersonalInfo(id, first, last, addressLine1, addressLine2, city, state, zip, dobDay, dobMonth, dobYear, last4):
-    account = stripe.Account.retrieve(id)
-
-    account.legal_entity.type = "individual"
-    account.legal_entity.first_name = first
-    account.legal_entity.last_name = last
-    account.legal_entity.personal_address.line1 = addressLine1
-    account.legal_entity.personal_address.line2 = addressLine2
-    account.legal_entity.personal_address.city = city
-    account.legal_entity.personal_address.state = state
-    account.legal_entity.personal_address.postal_code = zip
-    account.legal_entity.dob.day = dobDay
-    account.legal_entity.dob.month = dobMonth
-    account.legal_entity.dob.year = dobYear
-    account.legal_entity.ssn_last_4 = last4
-
-    account.save()
-
-
-def acceptServicesAgreement(id, ip):
-    account = stripe.Account.retrieve(id)
-    account.tos_acceptance.date = int(time.time())
-    account.tos_acceptance.ip = ip
-    account.save()
+# def updatePersonalInfo(id, first, last, addressLine1, addressLine2, city, state, zip, dobDay, dobMonth, dobYear, last4):
+#     account = stripe.Account.retrieve(id)
+#
+#     account.legal_entity.type = "individual"
+#     account.legal_entity.first_name = first
+#     account.legal_entity.last_name = last
+#     account.legal_entity.personal_address.line1 = addressLine1
+#     account.legal_entity.personal_address.line2 = addressLine2
+#     account.legal_entity.personal_address.city = city
+#     account.legal_entity.personal_address.state = state
+#     account.legal_entity.personal_address.postal_code = zip
+#     account.legal_entity.dob.day = dobDay
+#     account.legal_entity.dob.month = dobMonth
+#     account.legal_entity.dob.year = dobYear
+#     account.legal_entity.ssn_last_4 = last4
+#
+#     account.save()
 
 
-def deleteAccount(id):
-    account = stripe.Account.retrieve(id)
-    account.delete()
+# def accept_services_agreement(id, ip):
+#     account = stripe.Account.retrieve(id)
+#     account.tos_acceptance.date = int(time.time())
+#     account.tos_acceptance.ip = ip
+#     account.save()
+#
+#
+# def delete_account(id):
+#     account = stripe.Account.retrieve(id)
+#     account.delete()
+#
+#
+# def create_customer():
+#     customer = stripe.Customer.create()
+#     customer_id = customer.id
+#     return customer_id
 
 
-def create_customer():
-    customer = stripe.Customer.create()
-    customer_id = customer.id
-    return customer_id
-
-
-def add_card_to_customer(customer_id):
-    customer = stripe.Customer.retrieve(customer_id)
-    #TODO: figure out how to get the source from swift
-    customer.sources.create(source="?")
+# def add_card_to_customer(customer_id):
+#     customer = stripe.Customer.retrieve(customer_id)
+#     #TODO: figure out how to get the source from swift
+#     customer.sources.create(source="?")
 
 
 def log_info(message):
-    # sys.stdout.write(message)
-    # sys.stdout.write(join("\n", message, "\n"))
     print(message)
     sys.stdout.flush()
     return message
@@ -338,7 +333,7 @@ def add_connect_info():
     log_info(acct_token)
     account.account_token = acct_token
     log_info("Successfully associated account token")
-    acceptServicesAgreement(account_id, ip_address)
+    accept_services_agreement(account_id, ip_address)
     log_info("Successfully accepted TOS")
     log_info(account)
     account.save()
@@ -375,7 +370,7 @@ def delete_all_external_accounts_except_default(account_id):
             pass
 
 
-# should not do anything, just keepint it around in case I need it in the future
+# should not do anything, just keepin it around in case I need it in the future
 @app.route('/recieve_webhook', methods=['POST'])
 def recieve_webhook():
     # event_json = json.loads(request.body)
@@ -416,6 +411,7 @@ def check_stripe_account():
 
     return jsonify(enabled=enabledBool, due=due)
 
+
 @app.route('/save_ssn', methods=['POST'])
 def save_ssn():
     account_id = request.form['account_id']
@@ -426,7 +422,6 @@ def save_ssn():
     account["individual"]["id_number"] = decrypted_ssn
     account.save()
     return jsonify(success="success")
-
 
 
 @app.route('/do_nothing', methods=['POST'])
@@ -448,8 +443,26 @@ def log_error(error):
     return error
 
 
-def fetch_from_firebase():
-
+def fetch_picture_from_firebase():
+    config = {
+        "apiKey": os.environ.get("firebase_api"),
+        "authDomain": os.environ.get("firebase_auth_domain"),
+        "databaseURL": os.environ.get("firabase_database_url"),
+        "storageBucket": os.environ.get("firebase_storage_bucket"),
+        "serviceAccount": os.environ.get("firebase_services_account")
+    }
+    fb = pyrebase.initialize_app(config)
+    with open("firebase.json") as f:
+        print(f.readline())
+        print(f.readline())
+    email = os.environ.get("firebase_email")
+    pw = os.environ.get("firebase_email_password")
+    auth = fb.auth()
+    user = auth.sign_in_with_email_and_password(email=email, password=pw)
+    db = fb.database()
+    storage = fb.storage()
+    Brian = db.child("User").child("-LbQoDVfuiRm7NBsWOR9").child("id").get(user['idToken']).val()
+    print(Brian)
     return
 
 
@@ -458,14 +471,6 @@ def fetch_from_firebase():
 #               "18", "06", "1995", "2427")
 
 # customer_pays_owner("cus_E9HX8Dbeo9Af77", "acct_1DgdW8IWmP3kfqWG", 1500)
-
-
-# print("Create an account and accept agreement")
-# ip_address = "172.217.6.196"
-# account_id = createAccount()
-# updatePersonalInfo(account_id, "Joe", "Schmo", "150 Bishop St", None, "New Haven", "CT", "06119", "01", "01", "1996", "1234")
-# acceptServicesAgreement(account_id, ip_address)
-# print("done")
 
 # print(issue_key()) # ????????
 
@@ -482,4 +487,4 @@ def fetch_from_firebase():
 # except Exception as e:
 #     log_info(" This is the exception: \n" + str(e))
 
-fetch_from_firebase()
+fetch_picture_from_firebase()
