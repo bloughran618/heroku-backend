@@ -11,5 +11,5 @@ python_jwt
 gcloud
 sseclient
 requests_toolbelt
-RSA
+crypto
 pyrebase
