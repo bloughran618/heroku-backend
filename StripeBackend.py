@@ -6,7 +6,10 @@ from flask import Flask, session, jsonify, request, Response
 import sys
 import json
 # import firebase
-import pyrebase
+try:
+    import pyrebase
+except Exception as e:
+    print("The exceptoin is: " + str(e))
 
 stripe.api_key = os.environ.get("api_key")
 webhook_secrat = ""
