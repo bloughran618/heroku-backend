@@ -488,4 +488,4 @@ def fetch_picture_from_firebase():
 # except Exception as e:
 #     log_info(" This is the exception: \n" + str(e))
 
-fetch_picture_from_firebase()
+# fetch_picture_from_firebase()
