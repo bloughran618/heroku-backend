@@ -453,14 +453,14 @@ def fetch_picture_from_firebase():
         "serviceAccount": os.environ.get("firebase_services_account")
     }
     fb = pyrebase.initialize_app(config)
-    with open("firebase.json") as f:
-        print(f.readline())
-        print(f.readline())
     email = os.environ.get("firebase_email")
     pw = os.environ.get("firebase_email_password")
     auth = fb.auth()
     user = auth.sign_in_with_email_and_password(email=email, password=pw)
-    db = fb.database()
+    try:
+        db = fb.database()
+    except Exception as e:
+        print("exception is: " + str(e))
     storage = fb.storage()
     Brian = db.child("User").child("-LbQoDVfuiRm7NBsWOR9").child("id").get(user['idToken']).val()
     print(Brian)
