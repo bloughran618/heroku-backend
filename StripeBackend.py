@@ -8,8 +8,6 @@ import json
 # import firebase
 import pyrebase
 
-
-# This NEEDS to be set to os.environ.get when we go to prod
 stripe.api_key = os.environ.get("api_key")
 webhook_secrat = ""
 stripe.api_version = "2019-03-14" # "2018-05-21"
