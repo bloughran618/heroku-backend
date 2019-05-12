@@ -10,7 +10,6 @@ try:
     import pyrebase
 except Exception as e:
     print("The exceptoin is: " + str(e))
-    
 
 stripe.api_key = os.environ.get("api_key")
 webhook_secrat = ""
