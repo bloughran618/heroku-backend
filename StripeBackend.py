@@ -453,7 +453,7 @@ def fetch_picture_from_firebase():
         "serviceAccount": os.environ.get("firebase_services_account")
     }
     fb = pyrebase.initialize_app(config)
-    if fb == None:
+    if fb is None:
         log_info("fb is none: " + str(fb))
     else:
         log_info("fb is not none...")
