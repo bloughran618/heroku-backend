@@ -460,7 +460,7 @@ def fetch_picture_from_firebase():
     try:
         db = fb.database()
     except Exception as e:
-        print("exception is: " + str(e))
+        log_info("exception is: " + str(e))
     storage = fb.storage()
     Brian = db.child("User").child("-LbQoDVfuiRm7NBsWOR9").child("id").get(user['idToken']).val()
     print(Brian)
