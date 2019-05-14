@@ -457,6 +457,7 @@ def fetch_picture_from_firebase():
         log_info("fb is none: " + str(fb))
     else:
         log_info("fb is not none...")
+        log_info("fb is: " + str(fb))
     email = os.environ.get("firebase_email")
     pw = os.environ.get("firebase_email_password")
     auth = fb.auth()
