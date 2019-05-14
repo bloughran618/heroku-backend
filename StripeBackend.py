@@ -9,7 +9,7 @@ import json
 try:
     import pyrebase
 except Exception as e:
-    print("The exceptoin is: " + str(e))
+    print("The exception is: " + str(e))
 
 stripe.api_key = os.environ.get("api_key")
 webhook_secrat = ""
