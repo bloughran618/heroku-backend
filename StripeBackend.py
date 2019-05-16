@@ -468,8 +468,8 @@ def fetch_picture_from_firebase():
         log_info("exception is: " + str(e))
     storage = fb.storage()
     log_info("Storage works tho...")
-    Brian = db.child("User").child("-LbQoDVfuiRm7NBsWOR9").child("id").get(user['idToken']).val()
-    print(Brian)
+    # Brian = db.child("User").child("-LbQoDVfuiRm7NBsWOR9").child("id").get(user['idToken']).val()
+    # print(Brian)
     return
 
 
