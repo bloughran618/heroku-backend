@@ -5,6 +5,8 @@ import time
 from flask import Flask, session, jsonify, request, Response
 import sys
 import json
+import requests
+from io import BytesIO
 # import firebase
 try:
     import pyrebase
@@ -33,7 +35,7 @@ try:
   # )
   # print("Account successfully created:")
   # print(account[id])
-  pass
+    pass
 except stripe.error.CardError as e:
     # Since it's a decline, stripe.error.CardError will be caught
     print("Card Error")
@@ -444,7 +446,8 @@ def log_error(error):
     return error
 
 
-def fetch_picture_from_firebase():
+def fetch_picture_from_firebase(img_id):
+    # firebase auth and setup storage
     config = {
         "apiKey": os.environ.get("firebase_api"),
         "authDomain": os.environ.get("firebase_auth_domain"),
@@ -453,25 +456,56 @@ def fetch_picture_from_firebase():
         "serviceAccount": os.environ.get("firebase_services_account")
     }
     fb = pyrebase.initialize_app(config)
-    if fb is None:
-        log_info("fb is none: " + str(fb))
-    else:
-        log_info("fb is not none...")
-        log_info("fb is: " + str(fb))
     email = os.environ.get("firebase_email")
     pw = os.environ.get("firebase_email_password")
     auth = fb.auth()
     user = auth.sign_in_with_email_and_password(email=email, password=pw)
-    try:
-        db = fb.database()
-    except Exception as e:
-        log_info("exception is: " + str(e))
+    # db = fb.database()
     storage = fb.storage()
-    log_info("Storage works tho...")
+
+    # retrieve the file url
+    try:
+        file_url = storage.child("/car/" + str(img_id)).get_url(token=None)
+        log_info("got file url: " + file_url)
+        return file_url
+    except Exception as e:
+        log_info("ERROR getting picture from firebase: " + str(e))
     # Brian = db.child("User").child("-LbQoDVfuiRm7NBsWOR9").child("id").get(user['idToken']).val()
     # print(Brian)
     return
 
+def save_files_to_stripe(account_id, file_url_front, file_url_back):
+    try:
+        # create stripe File object
+        response = requests.get(file_url_front, stream=True)
+        img_file_front = BytesIO(response.content)
+        stripe_file_front = stripe.FileUpload.create(
+            purpose="identity_document",
+            file=img_file_front,
+            stripe_account=account_id
+        )
+
+        response = requests.get(file_url_back, stream=True)
+        img_file_back = BytesIO(response.content)
+        stripe_file_back = stripe.FileUpload.create(
+            purpose="identity_document",
+            file=img_file_back,
+            stripe_account=account_id
+        )
+
+        # save images
+        account = stripe.Account.retrieve(account_id)
+        account["individual"]["verification"]["document"]["front"] = stripe_file_front.id
+        account["individual"]["verification"]["document"]["back"] = stripe_file_back.id
+        account.save()
+    except Exception as e:
+        log_info("ERROR saving files to Stripe: " + str(e))
+
+def upload_pictures_to_stripe(account_id, front_image_id, back_image_id):
+    front_url = fetch_picture_from_firebase(front_image_id)
+    back_url = fetch_picture_from_firebase(back_image_id)
+    save_files_to_stripe(account_id, front_url, back_url)
+    log_info("complete")
 
 # account_id = createAccount()
 # updatePersonalInfo(account_id, "Brian", "Loughran", "42 Ardmore Rd", None, "West Hartford", "CT", "06119",
@@ -494,4 +528,4 @@ def fetch_picture_from_firebase():
 # except Exception as e:
 #     log_info(" This is the exception: \n" + str(e))
 
-fetch_picture_from_firebase()
+upload_pictures_to_stripe("acct_1EKc67BuN2uG9scf", "0qyvm", "0qyvm")
