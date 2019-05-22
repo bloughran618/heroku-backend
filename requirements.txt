@@ -13,4 +13,3 @@ sseclient
 requests_toolbelt
 crypto
 pyrebase
-io
