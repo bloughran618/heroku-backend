@@ -500,10 +500,10 @@ def save_files_to_stripe(account_id, file_url_front, file_url_back):
         account["individual"]["verification"]["document"]["back"] = stripe_file_back.id
         account.save()
         log_info("identity documents uploaded and saved")
-        return true
+        return True
     except Exception as e:
         log_info("ERROR saving files to Stripe: " + str(e))
-        return false
+        return False
 
 
 @app.route('/upload_id_docs', methods=['POST'])
