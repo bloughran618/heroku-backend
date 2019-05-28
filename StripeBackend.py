@@ -500,8 +500,10 @@ def save_files_to_stripe(account_id, file_url_front, file_url_back):
         account["individual"]["verification"]["document"]["back"] = stripe_file_back.id
         account.save()
         log_info("identity documents uploaded and saved")
+        return true
     except Exception as e:
         log_info("ERROR saving files to Stripe: " + str(e))
+        return false
 
 
 @app.route('/upload_id_docs', methods=['POST'])
@@ -511,6 +513,11 @@ def upload_pictures_to_stripe():
     back_image_id = request.form['back_image_id']
     front_url = fetch_picture_from_firebase(front_image_id)
     back_url = fetch_picture_from_firebase(back_image_id)
-    save_files_to_stripe(account_id, front_url, back_url)
-    log_info("identity documents upload complete")
-    return jsonify(success="success")
+    success = save_files_to_stripe(account_id, front_url, back_url)
+    if success:
+        log_info("identity documents upload complete")
+        return jsonify(success="success")
+    else:
+        response = jsonify(success="failure")
+        response.status_code = 400
+        return response
