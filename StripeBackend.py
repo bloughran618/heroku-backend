@@ -513,6 +513,8 @@ def upload_pictures_to_stripe():
     back_image_id = request.form['back_image_id']
     front_url = fetch_picture_from_firebase(front_image_id)
     back_url = fetch_picture_from_firebase(back_image_id)
+
+    # save the files to stripe and check if it worked
     success = save_files_to_stripe(account_id, front_url, back_url)
     if success:
         log_info("identity documents upload complete")
