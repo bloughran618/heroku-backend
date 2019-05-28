@@ -373,7 +373,7 @@ def delete_all_external_accounts_except_default(account_id):
             pass
 
 
-# should not do anything, just keepin it around in case I need it in the future
+# should not do anything, just keeping it around in case I need it in the future
 @app.route('/recieve_webhook', methods=['POST'])
 def recieve_webhook():
     # event_json = json.loads(request.body)
@@ -465,7 +465,7 @@ def fetch_picture_from_firebase(img_id):
 
     # retrieve the file url
     try:
-        file_url = storage.child("/car/" + str(img_id)).get_url(token=None)
+        file_url = storage.child("/temp/" + str(img_id)).get_url(token=None)
         log_info("got file url: " + file_url)
         return file_url
     except Exception as e:
@@ -473,6 +473,7 @@ def fetch_picture_from_firebase(img_id):
     # Brian = db.child("User").child("-LbQoDVfuiRm7NBsWOR9").child("id").get(user['idToken']).val()
     # print(Brian)
     return
+
 
 def save_files_to_stripe(account_id, file_url_front, file_url_back):
     try:
@@ -498,34 +499,18 @@ def save_files_to_stripe(account_id, file_url_front, file_url_back):
         account["individual"]["verification"]["document"]["front"] = stripe_file_front.id
         account["individual"]["verification"]["document"]["back"] = stripe_file_back.id
         account.save()
+        log_info("identity documents uploaded and saved")
     except Exception as e:
         log_info("ERROR saving files to Stripe: " + str(e))
 
-def upload_pictures_to_stripe(account_id, front_image_id, back_image_id):
+
+@app.route('/upload_id_docs', methods=['POST'])
+def upload_pictures_to_stripe():
+    account_id = request.form['account_id']
+    front_image_id = request.form['front_image_id']
+    back_image_id = request.form['back_image_id']
     front_url = fetch_picture_from_firebase(front_image_id)
     back_url = fetch_picture_from_firebase(back_image_id)
     save_files_to_stripe(account_id, front_url, back_url)
-    log_info("complete")
-
-# account_id = createAccount()
-# updatePersonalInfo(account_id, "Brian", "Loughran", "42 Ardmore Rd", None, "West Hartford", "CT", "06119",
-#               "18", "06", "1995", "2427")
-
-# customer_pays_owner("cus_E9HX8Dbeo9Af77", "acct_1DgdW8IWmP3kfqWG", 1500)
-
-# print(issue_key()) # ????????
-
-# account = stripe.Account.retrieve("acct_1EIRBeFqSeXgmrEv")
-# print(account)
-# # account.individual.id_number = 123456789
-# account["individual"]["id_number"] = 123456789
-# account.save()
-# print("-------------------------------------------------------------------------\n"
-#       + str(account))
-
-# try:
-#     import firebase
-# except Exception as e:
-#     log_info(" This is the exception: \n" + str(e))
-
-upload_pictures_to_stripe("acct_1EKc67BuN2uG9scf", "0qyvm", "0qyvm")
+    log_info("identity documents upload complete")
+    return jsonify(success="success")
