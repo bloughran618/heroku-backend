@@ -523,3 +523,23 @@ def upload_pictures_to_stripe():
         response = jsonify(success="failure")
         response.status_code = 400
         return response
+
+
+@app.route('/send_email', methods=['POST'])
+def send_email():
+    message = request.form['message']
+
+    import smtplib, ssl
+    port = 465
+    password = os.environ.get("spotbirdtheapp_password")
+    
+    # Create secure SSL context
+    context = ssl.create_default_context()
+
+    # send the email
+    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+        server.login("spotbirdtheapp@gmail.com", password)
+        server.sendmail("spotbirdtheapp@gmail.com", "bloughran618@gmail.com", "This is just a test")
+
+    return jsonify(success='success')
+
