@@ -7,6 +7,7 @@ import sys
 import json
 import requests
 from io import BytesIO
+from email.message import Message
 # import firebase
 try:
     import pyrebase
@@ -528,8 +529,8 @@ def upload_pictures_to_stripe():
 @app.route('/send_email', methods=['POST'])
 def send_email():
     try:
-        message = request.form['message']
-        log_info("This is the message: " + message)
+        message = Message(request.form['message'], 'utf-8').encode()
+        log_info("This is the message: " + str(message))
 
         import smtplib, ssl
         port = 465
@@ -548,7 +549,7 @@ def send_email():
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         log_info("This is the error in send_email: " + str(e))
-        log_info("This is the error line: " + str(exc_tb.tb_lineno))
+        log_info("This is the error line: " + str(exc_tb.lineno))
         response = jsonify(success="failure")
         response.status_code = 400
         return response
