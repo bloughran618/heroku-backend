@@ -529,6 +529,7 @@ def upload_pictures_to_stripe():
 def send_email():
     try:
         message = request.form['message']
+        log_info("This is the message: " + message)
 
         import smtplib, ssl
         port = 465
