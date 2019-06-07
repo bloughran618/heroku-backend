@@ -529,9 +529,9 @@ def upload_pictures_to_stripe():
 @app.route('/send_email', methods=['POST'])
 def send_email():
     try:
-        m = request.form['message']
-        message = Message()
-        message['Message'] = Message(m, 'utf-8')
+        message = request.form['message']
+        # remove non-ascii char's
+        message = ''.join(char for char in message if ord(char) < 128)
 
         log_info("This is the message: " + str(message))
 
