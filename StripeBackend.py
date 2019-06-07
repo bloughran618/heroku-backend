@@ -529,7 +529,10 @@ def upload_pictures_to_stripe():
 @app.route('/send_email', methods=['POST'])
 def send_email():
     try:
-        message = Message(request.form['message'], 'utf-8').encode()
+        m = request.form['message']
+        message = Message()
+        message['Message'] = Message(m, 'utf-8')
+
         log_info("This is the message: " + str(message))
 
         import smtplib, ssl
