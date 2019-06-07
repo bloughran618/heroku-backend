@@ -549,7 +549,7 @@ def send_email():
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         log_info("This is the error in send_email: " + str(e))
-        log_info("This is the error line: " + str(exc_tb.lineno))
+        log_info("This is the error line: " + str(exc_tb.tb_lineno))
         response = jsonify(success="failure")
         response.status_code = 400
         return response
