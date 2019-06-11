@@ -545,7 +545,7 @@ def send_email():
         # send the email
         with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
             server.login("spotbirdtheapp@gmail.com", password)
-            server.sendmail("spotbirdtheapp@gmail.com", "bloughran618@gmail.com", message)
+            server.sendmail("spotbirdtheapp@gmail.com", "spotbirdllc@gmail.com", message)
 
         log_info("message was sent successfully")
         return jsonify(success='success')
