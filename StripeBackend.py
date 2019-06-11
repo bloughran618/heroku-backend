@@ -177,11 +177,11 @@ except Exception as e:
 #     account.save()
 
 
-# def accept_services_agreement(id, ip):
-#     account = stripe.Account.retrieve(id)
-#     account.tos_acceptance.date = int(time.time())
-#     account.tos_acceptance.ip = ip
-#     account.save()
+def accept_services_agreement(id, ip):
+    account = stripe.Account.retrieve(id)
+    account.tos_acceptance.date = int(time.time())
+    account.tos_acceptance.ip = ip
+    account.save()
 #
 #
 # def delete_account(id):
@@ -557,3 +557,6 @@ def send_email():
         response.status_code = 400
         return response
 
+account_id = "acct_1EKzcHB8SCH49jjB"
+account = stripe.Account.retrieve(account_id)
+print(str(account))
