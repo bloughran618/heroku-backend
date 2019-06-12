@@ -2,7 +2,7 @@ import sys
 import os
 import stripe
 import time
-#from flask import Flask, session, jsonify, request, Response
+from flask import Flask, session, jsonify, request, Response
 import sys
 import json
 import requests
@@ -440,6 +440,7 @@ def decrypt_ssn(encrypted):
     smessage = SMessage(private_key, public_key)
     try:
         ssn = smessage.unwrap(encrypted)
+        print(ssn)
         return int(ssn)
     except ThemisError as e:
         print(e)
