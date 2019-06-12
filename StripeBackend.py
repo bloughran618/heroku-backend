@@ -343,7 +343,7 @@ def add_connect_info():
     account.individual.address.city = "Moon Colony #26"
     account.individual.address.country = "US"
     account.individual.address.line1 = "100 Bowling Alley"
-    account.individual.address.postal_code = "00000"
+    account.individual.address.postal_code = "07834"
     account.individual.address.state = "AK"
 
 
