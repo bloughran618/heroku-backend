@@ -339,6 +339,7 @@ def add_connect_info():
     log_info("Successfully associated account token")
 
     # dummy code while waiting for stripe
+    account.save()
     account.individual.address.city = "Moon Colony #26"
     account.individual.address.country = "US"
     account.individual.address.line1 = "100 Bowling Alley"
