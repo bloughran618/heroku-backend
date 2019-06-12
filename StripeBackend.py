@@ -447,6 +447,7 @@ def decrypt_ssn(encrypted):
 
 @app.route('/save_ssn', methods=['POST'])
 def save_ssn():
+    print("hello")
     account_id = request.form['account_id']
     account = stripe.Account.retrieve(account_id)
     encrypted_ssn = request.form['encrypted_ssn']
