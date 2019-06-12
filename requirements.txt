@@ -13,3 +13,6 @@ sseclient
 requests_toolbelt
 crypto
 pyrebase
+pythemis
+base64
+
