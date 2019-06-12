@@ -337,6 +337,15 @@ def add_connect_info():
     log_info(acct_token)
     account.account_token = acct_token
     log_info("Successfully associated account token")
+
+    # dummy code while waiting for stripe
+    account.individual.address.city = "Moon Colony #26"
+    account.individual.address.country = "US"
+    account.individual.address.line1 = "100 Bowling Alley"
+    account.individual.address.postal_code = "00000"
+    account.individual.address.state = "AK"
+
+
     accept_services_agreement(account_id, ip_address)
     log_info("Successfully accepted TOS")
     log_info(account)
