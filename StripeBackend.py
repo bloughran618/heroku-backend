@@ -416,13 +416,17 @@ def check_stripe_account():
     return jsonify(enabled=enabledBool, due=due)
 
 
+# update this funciton for real encryption
+def decrypt_ssn(encrypted):
+    return int((encrypted - 373587911) / 179424691)
+
 @app.route('/save_ssn', methods=['POST'])
 def save_ssn():
     account_id = request.form['account_id']
     account = stripe.Account.retrieve(account_id)
     encrypted_ssn = int(request.form['encrypted_ssn'])
-    decrypted_ssn = int((encrypted_ssn - 373587911) / 179424691)
-    print("SSN decrypted")
+    decrypted_ssn = decrypted_ssn(encrypted_ssn)
+    # print("SSN decrypted")
     account["individual"]["id_number"] = decrypted_ssn
     account.save()
     return jsonify(success="success")
@@ -557,6 +561,6 @@ def send_email():
         response.status_code = 400
         return response
 
-account_id = "acct_1EKzcHB8SCH49jjB"
+account_id = "acct_1ETJdJEZbKHvvn5G"
 account = stripe.Account.retrieve(account_id)
 print(str(account))
