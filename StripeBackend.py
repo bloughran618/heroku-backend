@@ -431,8 +431,8 @@ def check_stripe_account():
 
 # update this funciton for real encryption
 def decrypt_ssn(encrypted):
-    private_key_string = b"UkVDMgAAAC1FsVa6AMGljYqtNWQ+7r4RjXTabLZxZ/14EXmi6ec2e1vrCmyR"
-    public_key_string = b"VUVDMgAAAC1SsL32Axjosnf2XXUwm/4WxPlZauQ+v+0eOOjpwMN/EO+Huh5d"
+    private_key_string = "UkVDMgAAAC1FsVa6AMGljYqtNWQ+7r4RjXTabLZxZ/14EXmi6ec2e1vrCmyR"
+    public_key_string = "VUVDMgAAAC1SsL32Axjosnf2XXUwm/4WxPlZauQ+v+0eOOjpwMN/EO+Huh5d"
 
     private_key = base64.b64encode(private_key_string)
     public_key = base64.b64encode(public_key_string)
