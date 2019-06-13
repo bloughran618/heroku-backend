@@ -8,6 +8,10 @@ import json
 import requests
 from io import BytesIO
 from email.message import Message
+from pythemis.smessage import SMessage
+from pythemis.exception import ThemisError
+from pythemis.scell import SCellSeal
+import base64
 # import firebase
 try:
     import pyrebase
@@ -429,14 +433,36 @@ def check_stripe_account():
 
 # update this funciton for real encryption
 def decrypt_ssn(encrypted):
-    return int((encrypted - 373587911) / 179424691)
+
+    scell = SCellSeal(b'UkVDMgAAAC13PCVZAKOczZXUpvkhsC+xvwWnv3CLmlG0Wzy8ZBMnT+2yx/dg')
+    print(encrypted)
+    SSN = scell.decrypt(encrypted)
+    print(int(SSN))
+    return int(SSN)
+    
+    '''
+    private_key_string = b"UkVDMgAAAC1FsVa6AMGljYqtNWQ+7r4RjXTabLZxZ/14EXmi6ec2e1vrCmyR"
+    public_key_string = b"VUVDMgAAAC1SsL32Axjosnf2XXUwm/4WxPlZauQ+v+0eOOjpwMN/EO+Huh5d"
+
+    private_key = base64.b64encode(private_key_string)
+    public_key = base64.b64encode(public_key_string)
+    
+    smessage = SMessage(private_key_string, public_key_string)
+    try:
+        ssn = smessage.unwrap(encrypted)
+        print(ssn)
+        return int(ssn)
+    except ThemisError as e:
+        print(e)
+    '''
 
 @app.route('/save_ssn', methods=['POST'])
 def save_ssn():
+    print("hello")
     account_id = request.form['account_id']
     account = stripe.Account.retrieve(account_id)
-    encrypted_ssn = int(request.form['encrypted_ssn'])
-    decrypted_ssn = decrypted_ssn(encrypted_ssn)
+    encrypted_ssn = request.form['encrypted_ssn']
+    decrypted_ssn = decrypt_ssn(encrypted_ssn)
     # print("SSN decrypted")
     account["individual"]["id_number"] = decrypted_ssn
     account.save()
