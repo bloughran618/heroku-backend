@@ -434,8 +434,8 @@ def check_stripe_account():
 def decrypt_ssn(encrypted):
 
     scell = SCellSeal(b'UkVDMgAAAC13PCVZAKOczZXUpvkhsC+xvwWnv3CLmlG0Wzy8ZBMnT+2yx/dg')
-    print(encrypted)
-    SSN = scell.decrypt(encrypted)
+    print('b' + encrypted)
+    SSN = scell.decrypt('b' + encrypted)
     print(int(SSN))
     return int(SSN)
     
