@@ -10,6 +10,7 @@ from io import BytesIO
 from email.message import Message
 from pythemis.smessage import SMessage
 from pythemis.exception import ThemisError
+from pythemis.scell import SCellSeal
 import base64
 # import firebase
 try:
