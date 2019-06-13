@@ -349,7 +349,7 @@ def add_connect_info():
     account.individual.address.line2 = request.form["line2"]
     account.individual.address.city = request.form["city"]
     account.individual.address.state = request.form["state"]
-    log_info(request.form["postalcode"])
+    log_info("The given postal code: " + request.form["postalcode"])
     account.individual.address.postal_code = request.form["postalcode"]
     account.individual.address.country = "US"
 
