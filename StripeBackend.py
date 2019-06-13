@@ -344,7 +344,7 @@ def add_connect_info():
 
     # dummy code while waiting for stripe
     account.save()
-    account.individual.address.name = request.form["name"]
+    # account.individual.address.name = request.form["name"]
     account.individual.address.line1 = request.form["line1"]
     account.individual.address.line2 = request.form["line2"]
     account.individual.address.city = request.form["city"]
