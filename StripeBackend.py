@@ -431,11 +431,19 @@ def check_stripe_account():
 
 # update this funciton for real encryption
 def decrypt_ssn(encrypted):
-    private_key_string = "UkVDMgAAAC1FsVa6AMGljYqtNWQ+7r4RjXTabLZxZ/14EXmi6ec2e1vrCmyR"
-    public_key_string = "VUVDMgAAAC1SsL32Axjosnf2XXUwm/4WxPlZauQ+v+0eOOjpwMN/EO+Huh5d"
 
-    #private_key = base64.b64encode(private_key_string)
-    #public_key = base64.b64encode(public_key_string)
+    scell = SCellSeal(b'UkVDMgAAAC13PCVZAKOczZXUpvkhsC+xvwWnv3CLmlG0Wzy8ZBMnT+2yx/dg')
+
+    SSN = scell.decrypt(encrypted)
+    print(int(SSN))
+    return int(SSN)
+    
+    '''
+    private_key_string = b"UkVDMgAAAC1FsVa6AMGljYqtNWQ+7r4RjXTabLZxZ/14EXmi6ec2e1vrCmyR"
+    public_key_string = b"VUVDMgAAAC1SsL32Axjosnf2XXUwm/4WxPlZauQ+v+0eOOjpwMN/EO+Huh5d"
+
+    private_key = base64.b64encode(private_key_string)
+    public_key = base64.b64encode(public_key_string)
     
     smessage = SMessage(private_key_string, public_key_string)
     try:
@@ -444,6 +452,7 @@ def decrypt_ssn(encrypted):
         return int(ssn)
     except ThemisError as e:
         print(e)
+    '''
 
 @app.route('/save_ssn', methods=['POST'])
 def save_ssn():
