@@ -587,7 +587,7 @@ def fetch_Balance():
     account_id = request.form['account_id']
     balance = stripe.Balance.retrieve(stripe_account=account_id)
     print("Balance is: " + str(balance.available[0].amount))
-    return jsonify(sucess='success',Balance = balance.available[0].amout)
+    return jsonify(sucess='success',Balance = balance.available[0].amount)
 
     
 account_id = "acct_1EKc67BuN2uG9scf"
