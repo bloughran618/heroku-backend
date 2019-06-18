@@ -434,26 +434,11 @@ def check_stripe_account():
 def decrypt_ssn(encrypted):
 
     scell = SCellSeal(b'UkVDMgAAAC13PCVZAKOczZXUpvkhsC+xvwWnv3CLmlG0Wzy8ZBMnT+2yx/dg')
+    
     print(encrypted)
     SSN = scell.decrypt(encrypted)
     print(int(SSN))
     return int(SSN)
-    
-    '''
-    private_key_string = b"UkVDMgAAAC1FsVa6AMGljYqtNWQ+7r4RjXTabLZxZ/14EXmi6ec2e1vrCmyR"
-    public_key_string = b"VUVDMgAAAC1SsL32Axjosnf2XXUwm/4WxPlZauQ+v+0eOOjpwMN/EO+Huh5d"
-
-    private_key = base64.b64encode(private_key_string)
-    public_key = base64.b64encode(public_key_string)
-    
-    smessage = SMessage(private_key_string, public_key_string)
-    try:
-        ssn = smessage.unwrap(encrypted)
-        print(ssn)
-        return int(ssn)
-    except ThemisError as e:
-        print(e)
-    '''
 
 @app.route('/save_ssn', methods=['POST'])
 def save_ssn():
@@ -597,6 +582,20 @@ def send_email():
         response.status_code = 400
         return response
 
-account_id = "acct_1ETJdJEZbKHvvn5G"
+@app.route('/fetch_Balance', methods=['POST'])
+def fetch_Balance():
+    account_id = request.form['account_id']
+    balance = stripe.Balance.retrieve(stripe_account=account_id)
+    print("Balance is: " + str(balance.available[0].amount))
+    return jsonify(sucess='success',Balance = balance)
+
+    
+account_id = "acct_1EKc67BuN2uG9scf"
 account = stripe.Account.retrieve(account_id)
 print(str(account))
+balance = stripe.Balance.retrieve(
+  stripe_account=account_id
+)
+print("Balance is: " + str(balance))
+print("The integer is: " + str(balance.available[0].amount))
+
