@@ -594,7 +594,7 @@ def fetch_LifeTimeBalance():
     customer_id = request.form['customer_id']
     print("hello")
     totalCharge = 0
-    charges = stripe.Charge.list(customer = customer_id)
+    charges = stripe.Charge.list(customer = customer_id, limit = 100)
     for eachCharge in charges:
         totalCharge += int(eachCharge.amount)
     print("Charges: " + str(totalCharge))
