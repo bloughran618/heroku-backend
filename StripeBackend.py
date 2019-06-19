@@ -594,8 +594,8 @@ def fetch_LifeTimeBalance():
     account_id = request.form['account_id']
     print("hello")
     charges = stripe.Charge.list(customer = account_id)
-    print("Charges: " + str(balance))
-    return jsonify(Balance = balance)
+    print("Charges: " + str(charges))
+    return jsonify(Charges = charges)
 
   
 account_id = "acct_1EKc67BuN2uG9scf"
