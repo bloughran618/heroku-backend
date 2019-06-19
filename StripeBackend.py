@@ -596,7 +596,7 @@ def fetch_LifeTimeBalance():
     print("Total lifetime balance: " + str(balance))
     return jsonify(Balance = balance)
 
-    
+'''    
 account_id = "acct_1EKc67BuN2uG9scf"
 account = stripe.Account.retrieve(account_id)
 print(str(account))
@@ -604,5 +604,5 @@ balance = stripe.Balance.retrieve(
   stripe_account=account_id
 )
 print("Balance is: " + str(balance))
-print("The integer is: " + str(balance.available[0].amount))
+print("The integer is: " + str(balance.available[0].amount)) '''
 
