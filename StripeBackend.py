@@ -592,6 +592,7 @@ def fetch_Balance():
 @app.route('/fetch_LifeTimeBalance', methods=['POST'])
 def fetch_LifeTimeBalance():
     account_id = request.form['account_id']
+    print("hello")
     balance = stripe.Charge.retrieve(id = account_id)
     print("Total lifetime balance: " + str(balance))
     return jsonify(Balance = balance)
