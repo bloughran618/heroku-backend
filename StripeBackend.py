@@ -593,8 +593,11 @@ def fetch_Balance():
 def fetch_LifeTimeBalance():
     customer_id = request.form['customer_id']
     print("hello")
+    totalCharge = 0
     charges = stripe.Charge.list(customer = customer_id)
-    print("Charges: " + str(charges))
+    for eachCharge in charges:
+        print(eachCharge.amount)
+    print("Charges: " + str(totalCharge))
     return jsonify(Charges = charges)
 
   
