@@ -591,14 +591,14 @@ def fetch_Balance():
 
 @app.route('/fetch_LifeTimeBalance', methods=['POST'])
 def fetch_LifeTimeBalance():
-    customer_id = request.form['customer_id']
+    account_id = request.form['account_id']
     print("hello")
-    totalCharge = 0
-    charges = stripe.Charge.list(customer = customer_id, limit = 100)
-    for eachCharge in charges:
-        totalCharge += int(eachCharge.amount)
-    print("Charges: " + str(totalCharge))
-    return jsonify(Charges = charges)
+    totalTransfer = 0
+    transfers = stripe.Transfer.list(destination = account_id, limit = 100)
+    for eachTransfer in transfers:
+        totalTransfer += int(eachTransfer.amount)
+    print("Charges: " + str(totalTransfer))
+    return jsonify(Transfer = totalTransfer)
 
   
 account_id = "acct_1EKc67BuN2uG9scf"
