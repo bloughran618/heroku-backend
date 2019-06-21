@@ -592,15 +592,17 @@ def fetch_Balance():
 @app.route('/fetch_LifeTimeBalance', methods=['POST'])
 def fetch_LifeTimeBalance():
     account_id = request.form['account_id']
-    print("hello")
     totalTransfer = 0
     transfers = stripe.Transfer.list(destination = account_id, limit = 100)
     for eachTransfer in transfers:
         totalTransfer += int(eachTransfer.amount)
-    print("Charges: " + str(totalTransfer))
+    print("Lifetime total balance: " + str(totalTransfer))
     return jsonify(Transfer = totalTransfer)
 
-  
+@app.route('/test_stripe_backend', methods=['POST'])
+def test_stripe_backend():
+    return jsonify(success = 'success')
+
 account_id = "acct_1EKc67BuN2uG9scf"
 print(str(account_id))
 balance = stripe.Balance.retrieve(
