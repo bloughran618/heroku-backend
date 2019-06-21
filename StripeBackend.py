@@ -601,7 +601,7 @@ def fetch_LifeTimeBalance():
 
 @app.route('/test_stripe_backend', methods=['POST'])
 def test_stripe_backend():
-    return jsonify(success = 'success')
+    return jsonify(success = 'fail')
 
 account_id = "acct_1EKc67BuN2uG9scf"
 print(str(account_id))
