@@ -599,9 +599,15 @@ def fetch_LifeTimeBalance():
     print("Lifetime total balance: " + str(totalTransfer))
     return jsonify(Transfer = totalTransfer)
 
-@app.route('/test_stripe_backend', methods=['POST'])
-def test_stripe_backend():
+@app.route('/test_heroku_backend', methods=['POST'])
+def test_heroku_backend():
     return jsonify(success = 'success')
+
+@app.route('/test_stripe', methods=['POST'])
+def test_stripe():
+    account_id = request.form['account_id']
+    balance = stripe.Balance.retrieve(stripe_account=account_id)
+    return jsonify(Balance = balance.available[0].amount)
 
 account_id = "acct_1EKc67BuN2uG9scf"
 print(str(account_id))
