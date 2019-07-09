@@ -636,10 +636,10 @@ def addJobs():
     scheduler.add_job(myfunc, 'interval', seconds=10, id='my_job_id', misfire_grace_time = 60)
 
     for i in range(20):
-        scheduler.add_job(conflict_job, 'date', run_date='2019-7-09 11:14:00', args=[str(i) + ", "], misfire_grace_time = 60)
+        scheduler.add_job(conflict_job, 'date', run_date='2019-7-09 11:14:00', args=[str(i) + ", "], misfire_grace_time = 18000)
 
-    scheduler.add_job(my_job, 'date', run_date='2019-7-09 11:14:00', args=['Removing 10 second job'])
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-09 11:14:00', args=['Running at same time'])
+    scheduler.add_job(my_job, 'date', run_date='2019-7-09 11:14:00', args=['Removing 10 second job'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-09 11:14:00', args=['Running at same time'], misfire_grace_time = 18000)
 
 
     scheduler.configure(executors=executors, job_defaults=job_defaults, timezone='America/New_York')
