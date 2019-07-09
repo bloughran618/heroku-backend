@@ -616,8 +616,8 @@ executors = {
     'default': {'type': 'threadpool', 'max_workers': 20}
 }
 job_defaults = {
-    'coalesce': False,
-    'max_instances': 1
+    'coalesce': True,
+    'max_instances': 3
 }
 scheduler = BackgroundScheduler()
 
@@ -650,6 +650,17 @@ def addJobs():
 @app.route('/APScheduler_testing', methods=['POST'])
 def APScheduler_testing():
     success = addJobs()
+    if success:
+        return jsonify(success="success")
+    else:
+        response = jsonify(success="failure")
+        return response
+
+@app.route('/start_scheduler', methods=['POST'])
+def start_scheduler():
+    scheduler.start()
+    print("scheduler started")
+    success = True
     if success:
         return jsonify(success="success")
     else:
