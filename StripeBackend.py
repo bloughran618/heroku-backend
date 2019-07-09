@@ -8,10 +8,13 @@ import json
 import requests
 from io import BytesIO
 from email.message import Message
+from apscheduler.schedulers.background import BackgroundScheduler
+from pytz import utc
 from pythemis.smessage import SMessage
 from pythemis.exception import ThemisError
 from pythemis.scell import SCellSeal
 import base64
+
 # import firebase
 try:
     import pyrebase
@@ -609,6 +612,51 @@ def test_stripe():
     balance = stripe.Balance.retrieve(stripe_account=account_id)
     return jsonify(Balance = balance.available[0].amount)
 
+executors = {
+    'default': {'type': 'threadpool', 'max_workers': 20}
+}
+job_defaults = {
+    'coalesce': False,
+    'max_instances': 1
+}
+scheduler = BackgroundScheduler()
+
+def myfunc():
+    print("Job that runs every 10 seconds")
+
+def my_job(text):
+    print(text)
+    scheduler.remove_job('my_job_id')
+
+def conflict_job(text):
+    print(text)
+
+def addJobs():
+
+    scheduler.add_job(myfunc, 'interval', seconds=10, id='my_job_id', misfire_grace_time = 60)
+
+    for i in range(20):
+        scheduler.add_job(conflict_job, 'date', run_date='2019-7-09 10:26:00', args=[str(i) + ", "], misfire_grace_time = 60)
+
+    scheduler.add_job(my_job, 'date', run_date='2019-7-09 10:26:00', args=['Removing 10 second job'])
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-09 10:26:00', args=['Running at same time'])
+
+
+    scheduler.configure(executors=executors, job_defaults=job_defaults, timezone=utc)
+
+    scheduler.start()
+    return True
+
+@app.route('/APScheduler_testing', methods=['POST'])
+def APScheduler_testing():
+    success = addJobs()
+    if success:
+        return jsonify(success="success")
+    else:
+        response = jsonify(success="failure")
+        return response
+
+'''
 account_id = "acct_1EKc67BuN2uG9scf"
 print(str(account_id))
 balance = stripe.Balance.retrieve(
@@ -616,4 +664,4 @@ balance = stripe.Balance.retrieve(
 )
 print("Balance is: " + str(balance))
 print("The integer is: " + str(balance.available[0].amount)) 
-
+'''

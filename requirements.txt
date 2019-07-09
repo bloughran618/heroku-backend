@@ -14,3 +14,4 @@ requests_toolbelt
 crypto
 pyrebase
 pythemis
+APScheduler==3.0.0
