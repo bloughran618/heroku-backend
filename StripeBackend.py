@@ -643,7 +643,7 @@ def addJobs():
     scheduler.add_job(conflict_job, 'date', run_date='2019-7-09 10:56:00', args=['Running at same time'])
 
 
-    scheduler.configure(executors=executors, job_defaults=job_defaults, timezone=eastern)
+    scheduler.configure(executors=executors, job_defaults=job_defaults)
 
     scheduler.start()
     return True
