@@ -650,6 +650,7 @@ def addJobs():
 @app.route('/APScheduler_testing', methods=['POST'])
 def APScheduler_testing():
     success = addJobs()
+    scheduler.print_jobs()
     if success:
         return jsonify(success="success")
     else:
@@ -657,15 +658,10 @@ def APScheduler_testing():
         return response
 
 @app.route('/start_scheduler', methods=['POST'])
-def start_scheduler():
-    scheduler.start()
-    print("scheduler started")
-    success = True
-    if success:
-        return jsonify(success="success")
-    else:
-        response = jsonify(success="failure")
-        return response
+def create_job():
+    job = scheduler.add_job(conflict_job, 'date', run_date='2019-7-09 19:00:00', args=['Job going into firebase database'], misfire_grace_time = 18000)
+    print('job created')
+    return jsonify(Job = job)
 
 '''
 account_id = "acct_1EKc67BuN2uG9scf"
