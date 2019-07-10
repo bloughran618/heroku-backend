@@ -649,28 +649,23 @@ def addJobs():
     scheduler.configure(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone='America/New_York')
 
     scheduler.start()
-    return True
 
 @app.route('/APScheduler_testing', methods=['POST'])
 def APScheduler_testing():
-    #success = addJobs()
+    #addJobs()
 
     scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 15:11:00', args=['First'], misfire_grace_time = 18000)
     scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 15:13:00', args=['Second'], misfire_grace_time = 18000)
     
     scheduler.print_jobs()
-    if success:
-        return jsonify(success="success")
-    else:
-        response = jsonify(success="failure")
-        return response
+    return jsonify(success="success")
 
 @app.route('/start_scheduler', methods=['POST'])
 def start_scheduler():
     scheduler.configure(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone='America/New_York')
-    scheduler.start()
     scheduler.print_jobs()
-    return jsonify(success='success')
+    scheduler.start()
+    return jsonify(success="success")
 
 '''
 account_id = "acct_1EKc67BuN2uG9scf"
