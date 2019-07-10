@@ -9,6 +9,7 @@ import requests
 from io import BytesIO
 from email.message import Message
 from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from pytz import timezone
 from pythemis.smessage import SMessage
 from pythemis.exception import ThemisError
@@ -612,6 +613,9 @@ def test_stripe():
     balance = stripe.Balance.retrieve(stripe_account=account_id)
     return jsonify(Balance = balance.available[0].amount)
 
+jobstores = {
+    'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
+}
 executors = {
     'default': {'type': 'threadpool', 'max_workers': 20}
 }
@@ -635,14 +639,14 @@ def addJobs():
 
     #scheduler.add_job(myfunc, 'interval', seconds=10, id='my_job_id', misfire_grace_time = 60)
 
-    for i in range(20):
-        scheduler.add_job(conflict_job, 'date', run_date='2019-7-09 11:14:00', args=[str(i) + ", "], misfire_grace_time = 18000)
+    #for i in range(20):
+        #scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 13:01:00', args=[str(i) + ", "], misfire_grace_time = 18000)
 
-    #scheduler.add_job(my_job, 'date', run_date='2019-7-09 11:14:00', args=['Removing 10 second job'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-09 4:30:00', args=['Running at same time'], misfire_grace_time = 18000)
+    #scheduler.add_job(my_job, 'date', run_date='2019-7-10 13:04:00', args=['Removing 10 second job'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 13:15:00', args=['Running after shutdown'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 14:00:00', args=['Running after shutdown at or after 2:00pm'], misfire_grace_time = 18000)
 
-
-    scheduler.configure(executors=executors, job_defaults=job_defaults, timezone='America/New_York')
+    scheduler.configure(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone='America/New_York')
 
     scheduler.start()
     return True
@@ -658,10 +662,10 @@ def APScheduler_testing():
         return response
 
 @app.route('/start_scheduler', methods=['POST'])
-def create_job():
-    job = scheduler.add_job(conflict_job, 'date', run_date='2019-7-09 19:00:00', args=['Job going into firebase database'], misfire_grace_time = 18000)
-    print('job created')
-    return jsonify(Job = job)
+def start_scheduler():
+    scheduler.configure(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone='America/New_York')
+    scheduler.start()
+    scheduler.print_jobs()
 
 '''
 account_id = "acct_1EKc67BuN2uG9scf"

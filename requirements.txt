@@ -15,3 +15,5 @@ crypto
 pyrebase
 pythemis
 APScheduler==3.0.0
+SQLAlchemy==1.3.5
+flask-sqlalchemy==2.4.0
