@@ -643,8 +643,8 @@ def addJobs():
         #scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 13:01:00', args=[str(i) + ", "], misfire_grace_time = 18000)
 
     #scheduler.add_job(my_job, 'date', run_date='2019-7-10 13:04:00', args=['Removing 10 second job'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 13:15:00', args=['Running after shutdown'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 14:00:00', args=['Running after shutdown at or after 2:00pm'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 15:00:00', args=['Running after shutdown'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 15:03:00', args=['Running after shutdown at or after 2:00pm'], misfire_grace_time = 18000)
 
     scheduler.configure(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone='America/New_York')
 
