@@ -666,6 +666,7 @@ def start_scheduler():
     scheduler.configure(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone='America/New_York')
     scheduler.start()
     scheduler.print_jobs()
+    return jsonify(success='success')
 
 '''
 account_id = "acct_1EKc67BuN2uG9scf"
