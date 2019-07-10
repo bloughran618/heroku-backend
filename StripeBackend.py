@@ -653,7 +653,11 @@ def addJobs():
 
 @app.route('/APScheduler_testing', methods=['POST'])
 def APScheduler_testing():
-    success = addJobs()
+    #success = addJobs()
+
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 15:11:00', args=['First'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 15:13:00', args=['Second'], misfire_grace_time = 18000)
+    
     scheduler.print_jobs()
     if success:
         return jsonify(success="success")
