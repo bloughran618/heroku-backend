@@ -613,17 +613,22 @@ def test_stripe():
     balance = stripe.Balance.retrieve(stripe_account=account_id)
     return jsonify(Balance = balance.available[0].amount)
 
-jobstores = {
-    'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
-}
-executors = {
-    'default': {'type': 'threadpool', 'max_workers': 20}
-}
-job_defaults = {
-    'coalesce': True,
-    'max_instances': 3
-}
-scheduler = BackgroundScheduler()
+def configure_scheduler():
+    global scheduler
+    
+    jobstores = {
+        'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
+    }
+    executors = {
+        'default': {'type': 'threadpool', 'max_workers': 20}
+    }
+    job_defaults = {
+        'coalesce': True,
+        'max_instances': 3
+    }
+    scheduler = BackgroundScheduler()
+    scheduler.configure(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone='America/New_York')
+
 
 def myfunc():
     print("Job that runs every 10 seconds")
@@ -636,33 +641,34 @@ def conflict_job(text):
     print(text)
 
 def addJobs():
+    global scheduler
 
-    #scheduler.add_job(myfunc, 'interval', seconds=10, id='my_job_id', misfire_grace_time = 60)
-
-    #for i in range(20):
-        #scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 13:01:00', args=[str(i) + ", "], misfire_grace_time = 18000)
-
-    #scheduler.add_job(my_job, 'date', run_date='2019-7-10 13:04:00', args=['Removing 10 second job'], misfire_grace_time = 18000)
+    configure_scheduler()
+    
     scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 15:00:00', args=['Running after shutdown'], misfire_grace_time = 18000)
     scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 15:03:00', args=['Running after shutdown at or after 2:00pm'], misfire_grace_time = 18000)
-
-    scheduler.configure(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone='America/New_York')
-
+    
     scheduler.start()
 
 @app.route('/APScheduler_testing', methods=['POST'])
 def APScheduler_testing():
+    global scheduler
+
+    configure_scheduler()
+    
     #addJobs()
 
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 15:11:00', args=['First'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 15:13:00', args=['Second'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 9:48:00', args=['First'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 9:50:00', args=['Second'], misfire_grace_time = 18000)
     
     scheduler.print_jobs()
     return jsonify(success="success")
 
 @app.route('/start_scheduler', methods=['POST'])
 def start_scheduler():
-    scheduler.configure(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone='America/New_York')
+    global scheduler
+
+    configure_scheduler()
     scheduler.print_jobs()
     scheduler.start()
     return jsonify(success="success")
