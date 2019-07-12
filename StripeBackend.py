@@ -659,14 +659,14 @@ def addJobs():
 def APScheduler_testing():
     global scheduler
 
-    configure_scheduler()
+    #configure_scheduler()
     
-    scheduler.start()
+    #scheduler.start()
     scheduler.print_jobs()
 
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 10:35:00', args=['First'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 10:36:00', args=['Second'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 10:38:00', args=['Second'], misfire_grace_time = 18000)
+    #scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 10:35:00', args=['First'], misfire_grace_time = 18000)
+    #scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 10:36:00', args=['Second'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 10:40:00', args=['Second'], misfire_grace_time = 18000)
 
     
     scheduler.print_jobs()
@@ -679,6 +679,11 @@ def start_scheduler():
     configure_scheduler()
     scheduler.start()
     scheduler.print_jobs()
+
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 10:38:00', args=['First'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 10:39:00', args=['Second'], misfire_grace_time = 18000)
+    scheduler.print_jobs()
+    
     return jsonify(success="success")
 
 '''
