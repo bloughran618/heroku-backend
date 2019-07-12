@@ -664,8 +664,8 @@ def APScheduler_testing():
     scheduler.start()
     scheduler.print_jobs()
 
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 9:55:00', args=['First'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 9:57:00', args=['Second'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 10:20:00', args=['First'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 10:22:00', args=['Second'], misfire_grace_time = 18000)
     
     scheduler.print_jobs()
     #return jsonify(success="success")
