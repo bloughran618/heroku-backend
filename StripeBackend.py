@@ -613,6 +613,8 @@ def test_stripe():
     balance = stripe.Balance.retrieve(stripe_account=account_id)
     return jsonify(Balance = balance.available[0].amount)
 
+global scheduler
+
 def configure_scheduler():
     global scheduler
     
@@ -644,11 +646,14 @@ def addJobs():
     global scheduler
 
     configure_scheduler()
-    
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 15:00:00', args=['Running after shutdown'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-10 15:03:00', args=['Running after shutdown at or after 2:00pm'], misfire_grace_time = 18000)
-    
+        
     scheduler.start()
+
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 9:55:00', args=['Running after shutdown'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 15:56:00', args=['Running after shutdown at or after 2:00pm'], misfire_grace_time = 18000)
+
+    scheduler.print_jobs()
+    
 
 @app.route('/APScheduler_testing', methods=['POST'])
 def APScheduler_testing():
@@ -656,21 +661,22 @@ def APScheduler_testing():
 
     configure_scheduler()
     
-    #addJobs()
+    scheduler.start()
+    scheduler.print_jobs()
 
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-11 10:56:00', args=['First'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-11 10:58:00', args=['Second'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 9:55:00', args=['First'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 9:57:00', args=['Second'], misfire_grace_time = 18000)
     
     scheduler.print_jobs()
-    return jsonify(success="success")
+    #return jsonify(success="success")
 
 @app.route('/start_scheduler', methods=['POST'])
 def start_scheduler():
     global scheduler
 
     configure_scheduler()
-    scheduler.print_jobs()
     scheduler.start()
+    scheduler.print_jobs()
     return jsonify(success="success")
 
 '''
