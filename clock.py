@@ -41,6 +41,6 @@ def scheduled_job():
 
 if __name__ == '__main__':
     add_jobs()
-    sched.print_jobs()
     sched.start()
+    sched.print_jobs()
 
