@@ -15,6 +15,7 @@ from pythemis.smessage import SMessage
 from pythemis.exception import ThemisError
 from pythemis.scell import SCellSeal
 import base64
+import clock
 
 # import firebase
 try:
@@ -657,7 +658,8 @@ def addJobs():
 
 @app.route('/APScheduler_testing', methods=['POST'])
 def APScheduler_testing():
-    global scheduler
+
+    '''global scheduler
 
     #configure_scheduler()
     
@@ -670,6 +672,8 @@ def APScheduler_testing():
 
     
     scheduler.print_jobs()
+    '''
+    clock.add_jobs()
     return jsonify(success="success")
 
 @app.route('/start_scheduler', methods=['POST'])

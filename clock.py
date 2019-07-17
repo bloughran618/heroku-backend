@@ -23,8 +23,10 @@ def timed_job():
 def my_job(text):
     print(text)
 
-sched.add_job(my_job, 'date', run_date='2019-7-17 11:15:00', args=['date job firing'], misfire_grace_time = 18000)
-sched.add_job(my_job, 'date', run_date='2019-7-17 12:30:00', args=['date to run after sleeping'], misfire_grace_time=18000)
+def add_jobs():
+    print("scheduling")
+    sched.add_job(my_job, 'date', run_date='2019-7-17 12:50:00', args=['date job firing'], misfire_grace_time = 18000)
+    sched.add_job(my_job, 'date', run_date='2019-7-17 12:57:00', args=['date to run after sleeping'], misfire_grace_time=18000)
 
 '''
 @sched.scheduled_job('date', run_date='2019-7-17 10:40:00', misfire_grace_time=18000)
