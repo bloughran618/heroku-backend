@@ -25,9 +25,9 @@ def my_job(text):
 
 def add_jobs():
     print("scheduling")
-    sched.add_job(my_job, 'date', run_date='2019-7-17 15:25:00', args=['date job firing'], id = "Job3", misfire_grace_time = 18000)
-    sched.add_job(my_job, 'date', run_date='2019-7-17 15:30:00', args=['date to run'], id = "Job4", misfire_grace_time=18000)
-    sched.add_job(my_job, 'date', run_date='2019-7-17 16:30:00', args=['job after shutdown'], id = 'Job5', misfire_grace_time = 18000)
+    sched.add_job(my_job, 'date', run_date='2019-7-17 17:41:00', args=['date job firing'], id = "Job3", misfire_grace_time = 18000)
+    sched.add_job(my_job, 'date', run_date='2019-7-17 17:42:00', args=['date to run'], id = "Job4", misfire_grace_time=18000)
+    sched.add_job(my_job, 'date', run_date='2019-7-17 17:43:00', args=['job after shutdown'], id = 'Job5', misfire_grace_time = 18000)
     
 '''
 @sched.scheduled_job('date', run_date='2019-7-17 10:40:00', misfire_grace_time=18000)
@@ -41,6 +41,6 @@ def scheduled_job():
 
 if __name__ == '__main__':
     add_jobs()
-    #sched.print_jobs()
+    sched.print_jobs()
     sched.start()
 
