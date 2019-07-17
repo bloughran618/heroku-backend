@@ -24,11 +24,9 @@ def date_job():
     print('Running at a specific date')
         
 
-'''
-@sched.scheduled_job('cron', day_of_week='mon-fri', hour=17)
+@sched.scheduled_job('cron', day_of_week='mon-fri', hour=13)
 def scheduled_job():
     print('This job is run every weekday at 5pm.')
-'''
-sched.print_jobs()
+
 sched.start()
 
