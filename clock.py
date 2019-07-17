@@ -25,19 +25,21 @@ def my_job(text):
 
 def add_jobs():
     print("scheduling")
-    sched.add_job(my_job, 'date', run_date='2019-7-17 12:50:00', args=['date job firing'], misfire_grace_time = 18000)
-    sched.add_job(my_job, 'date', run_date='2019-7-17 12:57:00', args=['date to run after sleeping'], misfire_grace_time=18000)
+    sched.add_job(my_job, 'date', run_date='2019-7-17 13:44:00', args=['date job firing'], id = "Job3", misfire_grace_time = 18000)
+    sched.add_job(my_job, 'date', run_date='2019-7-17 13:46:00', args=['date to run after sleeping'], id = "Job4", misfire_grace_time=18000)
 
 '''
 @sched.scheduled_job('date', run_date='2019-7-17 10:40:00', misfire_grace_time=18000)
 def date_job():
     print('Running at a specific date')
-'''        
-print("scheduled date job")
 
-@sched.scheduled_job('cron', day_of_week='mon-fri', hour=13)
+@sched.scheduled_job('cron', day_of_week='mon-fri', hour=13, misfire_grace_time = 18000)
 def scheduled_job():
     print('This job is run every weekday at 5pm.')
+'''
 
-sched.start()
+if __name__ == '__main__':
+    #add_jobs()
+    sched.print_jobs()
+    sched.start()
 
