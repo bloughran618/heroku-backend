@@ -14,6 +14,8 @@ job_defaults = {
 
 sched = BlockingScheduler()
 sched.configure(jobstores=jobstores, job_defaults=job_defaults, timezone='America/New_York')
+print("configured")
+
 '''
 @sched.scheduled_job('interval', minutes=1)
 def timed_job():
