@@ -19,10 +19,11 @@ sched.configure(jobstores=jobstores, job_defaults=job_defaults, timezone='Americ
 def timed_job():
     print('This job is run every minute.')
 '''
-@sched.scheduled_job('date', run_date='2019-7-17 10:20:00', misfire_grace_time=18000)
+@sched.scheduled_job('date', run_date='2019-7-17 10:40:00', misfire_grace_time=18000)
 def date_job():
     print('Running at a specific date')
         
+print("scheduled date job")
 
 @sched.scheduled_job('cron', day_of_week='mon-fri', hour=13)
 def scheduled_job():
