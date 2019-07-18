@@ -679,8 +679,8 @@ def start_scheduler():
     scheduler.start()
     scheduler.print_jobs()
 
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 15:25:00', args=['Start-First'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 15:27:00', args=['Start-Second'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 15:33:00', args=['Start-First'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 15:34:00', args=['Start-Second'], misfire_grace_time = 18000)
     scheduler.print_jobs()
     
     return jsonify(success="success")
