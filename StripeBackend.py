@@ -15,6 +15,7 @@ from pythemis.smessage import SMessage
 from pythemis.exception import ThemisError
 from pythemis.scell import SCellSeal
 import base64
+import psycopg2
 #import clock
 
 # import firebase
@@ -615,12 +616,13 @@ def test_stripe():
     return jsonify(Balance = balance.available[0].amount)
 
 global scheduler
+DATABASE_URL = 'postgres://tffpbllccugrfi:7617ef0770ca682c6bbb554b608e73ad9e16d94edf683067dead0adf689fca1d@ec2-54-235-246-201.compute-1.amazonaws.com:5432/deqccv6ai08581'
 
 def configure_scheduler():
     global scheduler
     
     jobstores = {
-        'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
+        'default': SQLAlchemyJobStore(url=DATABASE_URL)
     }
     executors = {
         'default': {'type': 'threadpool', 'max_workers': 20}
@@ -632,13 +634,6 @@ def configure_scheduler():
     scheduler = BackgroundScheduler()
     scheduler.configure(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone='America/New_York')
 
-
-def myfunc():
-    print("Job that runs every 10 seconds")
-
-def my_job(text):
-    print(text)
-    scheduler.remove_job('my_job_id')
 
 def conflict_job(text):
     print(text)
@@ -659,21 +654,21 @@ def addJobs():
 @app.route('/APScheduler_testing', methods=['POST'])
 def APScheduler_testing():
 
-    '''global scheduler
+    global scheduler
 
     #configure_scheduler()
     
     #scheduler.start()
     scheduler.print_jobs()
 
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-15 10:12:00', args=['Job-First'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-15 10:13:00', args=['Job-Second'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-15 11:14:00', args=['Job-Third'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 15:30:00', args=['Job-First'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 15:31:00', args=['Job-Second'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 15:31:00', args=['Job-Third'], misfire_grace_time = 18000)
 
     
     scheduler.print_jobs()
-    '''
-    clock.add_jobs()
+    
+    #clock.add_jobs()
     return jsonify(success="success")
 
 @app.route('/start_scheduler', methods=['POST'])
@@ -684,12 +679,13 @@ def start_scheduler():
     scheduler.start()
     scheduler.print_jobs()
 
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-15 10:52:00', args=['Start-First'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-15 10:53:00', args=['Start-Second'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 15:25:00', args=['Start-First'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 15:27:00', args=['Start-Second'], misfire_grace_time = 18000)
     scheduler.print_jobs()
     
     return jsonify(success="success")
 
+#database url: postgresql-spherical-79118
 '''
 account_id = "acct_1EKc67BuN2uG9scf"
 print(str(account_id))
