@@ -644,13 +644,13 @@ def APScheduler_testing():
 
     scheduler.print_jobs()
 
-    for i in range(20):
-        scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:15:00', args=[str(i) + ", "], misfire_grace_time = 18000)
+    #for i in range(20):
+        #scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:15:00', args=[str(i) + ", "], misfire_grace_time = 18000)
 
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:14:00', args=['Job-First'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:15:00', args=['Job-Second'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:16:00', args=['Job-Third'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:40:00', args=['Sleeper'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 10:16:00', args=['Job-First'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 10:17:00', args=['Job-Second'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 10:18:00', args=['Job-Third'], misfire_grace_time = 18000)
+    #scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:40:00', args=['Sleeper'], misfire_grace_time = 18000)
 
     
     scheduler.print_jobs()
@@ -669,8 +669,8 @@ def start_scheduler():
         pass
     scheduler.print_jobs()
 
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:42:00', args=['Start-First'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:41:00', args=['Start-Second'], misfire_grace_time = 18000)
+    #scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:42:00', args=['Start-First'], misfire_grace_time = 18000)
+    #scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:41:00', args=['Start-Second'], misfire_grace_time = 18000)
     scheduler.print_jobs()
     
     return jsonify(success="success")
