@@ -16,7 +16,6 @@ from pythemis.exception import ThemisError
 from pythemis.scell import SCellSeal
 import base64
 import psycopg2
-#import clock
 
 # import firebase
 try:
@@ -656,32 +655,31 @@ def APScheduler_testing():
 
     global scheduler
 
-    #configure_scheduler()
-    
-    #scheduler.start()
     scheduler.print_jobs()
 
-    #scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 15:30:00', args=['Job-First'], misfire_grace_time = 18000)
-    #scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 15:31:00', args=['Job-Second'], misfire_grace_time = 18000)
-    #scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 15:31:00', args=['Job-Third'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 16:20:00', args=['Sleeper'], misfire_grace_time = 18000)
+    for i in range(20):
+        scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 9:10:00', args=[str(i) + ", "], misfire_grace_time = 18000)
+
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:05:00', args=['Job-First'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:06:00', args=['Job-Second'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:07:00', args=['Job-Third'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:08:00', args=['Sleeper'], misfire_grace_time = 18000)
 
     
     scheduler.print_jobs()
     
-    #clock.add_jobs()
     return jsonify(success="success")
 
 @app.route('/start_scheduler', methods=['POST'])
 def start_scheduler():
     global scheduler
-
+    print(os.environ.get("DATABASE_URL"))
     configure_scheduler()
     scheduler.start()
     scheduler.print_jobs()
 
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 15:36:00', args=['Start-First'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-18 15:37:00', args=['Start-Second'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:09:00', args=['Start-First'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:10:00', args=['Start-Second'], misfire_grace_time = 18000)
     scheduler.print_jobs()
     
     return jsonify(success="success")
