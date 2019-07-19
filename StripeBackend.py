@@ -615,7 +615,7 @@ def test_stripe():
     return jsonify(Balance = balance.available[0].amount)
 
 global scheduler
-DATABASE_URL = 'postgres://tffpbllccugrfi:7617ef0770ca682c6bbb554b608e73ad9e16d94edf683067dead0adf689fca1d@ec2-54-235-246-201.compute-1.amazonaws.com:5432/deqccv6ai08581'
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
 def configure_scheduler():
     global scheduler
@@ -647,10 +647,10 @@ def APScheduler_testing():
     #for i in range(20):
         #scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:15:00', args=[str(i) + ", "], misfire_grace_time = 18000)
 
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 10:16:00', args=['Job-First'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 10:17:00', args=['Job-Second'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 10:18:00', args=['Job-Third'], misfire_grace_time = 18000)
-    #scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:40:00', args=['Sleeper'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 13:00:00', args=['1:00 pm, Lunch Time'], misfire_grace_time = 86400)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 14:00:00', args=['2:00 pm, Getting Ready'], misfire_grace_time = 86400)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 15:00:00', args=['3:00 pm, Leaving'], misfire_grace_time = 86400)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 23:00:00', args=['11:00 pm, Sleeper'], misfire_grace_time = 86400)
 
     
     scheduler.print_jobs()
@@ -660,8 +660,7 @@ def APScheduler_testing():
 @app.route('/start_scheduler', methods=['POST'])
 def start_scheduler():
     global scheduler
-    print(os.environ.get("DATABASE_URL"))
-    configure_scheduler()
+
     try:
         configure_scheduler()
         scheduler.start()
