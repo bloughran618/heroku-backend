@@ -637,19 +637,6 @@ def configure_scheduler():
 def conflict_job(text):
     print(text)
 
-def addJobs():
-    global scheduler
-
-    configure_scheduler()
-        
-    scheduler.start()
-
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 9:55:00', args=['Running after shutdown'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 15:56:00', args=['Running after shutdown at or after 2:00pm'], misfire_grace_time = 18000)
-
-    scheduler.print_jobs()
-    
-
 @app.route('/APScheduler_testing', methods=['POST'])
 def APScheduler_testing():
 
@@ -658,12 +645,12 @@ def APScheduler_testing():
     scheduler.print_jobs()
 
     for i in range(20):
-        scheduler.add_job(conflict_job, 'date', run_date='2019-7-12 9:10:00', args=[str(i) + ", "], misfire_grace_time = 18000)
+        scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:10:00', args=[str(i) + ", "], misfire_grace_time = 18000)
 
     scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:05:00', args=['Job-First'], misfire_grace_time = 18000)
     scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:06:00', args=['Job-Second'], misfire_grace_time = 18000)
     scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:07:00', args=['Job-Third'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:08:00', args=['Sleeper'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:40:00', args=['Sleeper'], misfire_grace_time = 18000)
 
     
     scheduler.print_jobs()
@@ -675,11 +662,15 @@ def start_scheduler():
     global scheduler
     print(os.environ.get("DATABASE_URL"))
     configure_scheduler()
-    scheduler.start()
+    try:
+        configure_scheduler()
+        scheduler.start()
+    except:
+        pass
     scheduler.print_jobs()
 
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:09:00', args=['Start-First'], misfire_grace_time = 18000)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:10:00', args=['Start-Second'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:11:00', args=['Start-First'], misfire_grace_time = 18000)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:12:00', args=['Start-Second'], misfire_grace_time = 18000)
     scheduler.print_jobs()
     
     return jsonify(success="success")
