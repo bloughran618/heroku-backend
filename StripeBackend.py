@@ -644,13 +644,10 @@ def APScheduler_testing():
 
     scheduler.print_jobs()
 
-    #for i in range(20):
-        #scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:15:00', args=[str(i) + ", "], misfire_grace_time = 18000)
-
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 13:00:00', args=['1:00 pm, Lunch Time'], misfire_grace_time = 86400)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 14:00:00', args=['2:00 pm, Getting Ready'], misfire_grace_time = 86400)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 15:00:00', args=['3:00 pm, Leaving'], misfire_grace_time = 86400)
-    scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 23:00:00', args=['11:00 pm, Sleeper'], misfire_grace_time = 86400)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-22 9:56:00', args=['1:00 pm, Lunch Time'], misfire_grace_time = 86400)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-22 9:57:00', args=['2:00 pm, Getting Ready'], misfire_grace_time = 86400)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-22 10:05:00', args=['3:00 pm, Leaving'], misfire_grace_time = 86400)
+    scheduler.add_job(conflict_job, 'date', run_date='2019-7-22 23:00:00', args=['11:00 pm, Sleeper'], misfire_grace_time = 86400)
 
     
     scheduler.print_jobs()
@@ -674,7 +671,20 @@ def start_scheduler():
     
     return jsonify(success="success")
 
-#database url: postgresql-spherical-79118
+
+def daily_start_scheduler():
+    #This function is for the heroku scheduler add-on
+    global scheduler
+
+    try:
+        configure_scheduler()
+        scheduler.start()
+    except:
+        pass
+    scheduler.print_jobs()
+
+    return None
+
 '''
 account_id = "acct_1EKc67BuN2uG9scf"
 print(str(account_id))
