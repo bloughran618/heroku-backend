@@ -445,8 +445,8 @@ def decrypt_ssn(encrypted_text):
     encrypted_text_bytes = binascii.a2b_hex(encrypted_text)
     decrypted_text = aes.decrypt(encrypted_text_bytes)
 
-    print(int(SSN))
-    return int(SSN)
+    print(int(decrypted_text))
+    return int(decrypted_text)
 
 @app.route('/save_ssn', methods=['POST'])
 def save_ssn():
