@@ -15,6 +15,8 @@ from pythemis.smessage import SMessage
 from pythemis.exception import ThemisError
 from pythemis.scell import SCellSeal
 import base64
+from Crypto.Cipher import AES
+import binascii
 import psycopg2
 
 # import firebase
@@ -437,11 +439,12 @@ def check_stripe_account():
 
 # update this funciton for real encryption
 def decrypt_ssn(encrypted):
-
-    scell = SCellSeal(b'UkVDMgAAAC13PCVZAKOczZXUpvkhsC+xvwWnv3CLmlG0Wzy8ZBMnT+2yx/dg')
-    
     print(encrypted)
-    SSN = scell.decrypt(encrypted)
+    
+    aes = AES.new(b'This is a key123', AES.MODE_CFB, b'0000000000000000')
+    encrypted_text_bytes = binascii.a2b_hex(encrypted_text)
+    decrypted_text = aes.decrypt(encrypted_text_bytes)
+
     print(int(SSN))
     return int(SSN)
 
@@ -452,9 +455,9 @@ def save_ssn():
     account = stripe.Account.retrieve(account_id)
     encrypted_ssn = request.form['encrypted_ssn']
     decrypted_ssn = decrypt_ssn(encrypted_ssn)
-    # print("SSN decrypted")
-    account["individual"]["id_number"] = decrypted_ssn
-    account.save()
+    print("SSN decrypted")
+    #account["individual"]["id_number"] = decrypted_ssn
+    #account.save()
     return jsonify(success="success")
 
 
