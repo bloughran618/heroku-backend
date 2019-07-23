@@ -438,8 +438,8 @@ def check_stripe_account():
 
 
 # update this funciton for real encryption
-def decrypt_ssn(encrypted):
-    print(encrypted)
+def decrypt_ssn(encrypted_text):
+    print(encrypted_text)
     
     aes = AES.new(b'This is a key123', AES.MODE_CFB, b'0000000000000000')
     encrypted_text_bytes = binascii.a2b_hex(encrypted_text)
