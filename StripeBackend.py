@@ -657,6 +657,22 @@ def APScheduler_testing():
     
     return jsonify(success="success")
 
+@app.route('/remove_specified_job', methods=['POST']
+def remove_specified_job():
+    global scheduler
+
+    spot_id = request.form['spot_id']
+    start_date = request.form['start_date']
+    start_date = start_date + ":00"
+
+    print(spot_id + start_date)
+
+    scheduler.remove_job(spot_id + start_date)
+
+    scheduler.print_jobs()
+    
+    return jsonify(success="success")
+
 @app.route('/start_scheduler', methods=['POST'])
 def start_scheduler():
     global scheduler
