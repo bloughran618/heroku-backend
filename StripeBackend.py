@@ -645,9 +645,13 @@ def APScheduler_testing():
 
     global scheduler
 
+    spot_id = request.form['spot_id']
+    start_date = request.form['start_date']
+    start_date = start_date + ":00"
+
     scheduler.print_jobs()
 
-    #scheduler.add_job(conflict_job, 'date', run_date='2019-7-22 11:02:00', args=['1:00 pm, Lunch Time'], misfire_grace_time = 86400)
+    scheduler.add_job(conflict_job, 'date', run_date= start_date, args=["Running job at " + start_date], id = spot_id + start_date, misfire_grace_time = 86400)
     
     scheduler.print_jobs()
     
@@ -662,10 +666,6 @@ def start_scheduler():
         scheduler.start()
     except:
         pass
-    scheduler.print_jobs()
-
-    #scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:42:00', args=['Start-First'], misfire_grace_time = 18000)
-    #scheduler.add_job(conflict_job, 'date', run_date='2019-7-19 9:41:00', args=['Start-Second'], misfire_grace_time = 18000)
     scheduler.print_jobs()
     
     return jsonify(success="success")
