@@ -657,7 +657,7 @@ def APScheduler_testing():
     
     return jsonify(success="success")
 
-@app.route('/remove_specified_job', methods=['POST']
+@app.route('/remove_specified_job', methods=['POST'])
 def remove_specified_job():
     global scheduler
 
