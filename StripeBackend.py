@@ -658,19 +658,17 @@ def schedule_transfer():
 
     return jsonify(success="success")
     
+def conflict_job(text):
+    print(text)
 
 @app.route('/APScheduler_testing', methods=['POST'])
 def APScheduler_testing():
 
     global scheduler
 
-    spot_id = request.form['spot_id']
-    start_date = request.form['start_date']
-    start_date = start_date + ":00"
-
     scheduler.print_jobs()
 
-    scheduler.add_job(conflict_job, 'date', run_date= start_date, args=["Running job at " + start_date], id = spot_id + start_date, misfire_grace_time = 86400)
+    scheduler.add_job(conflict_job, 'date', run_date= "2019-07-25 12:15:00", args=["Running job at 12:15"], misfire_grace_time = 86400)
     
     scheduler.print_jobs()
     
