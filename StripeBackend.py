@@ -241,10 +241,10 @@ def log_info(message):
 #     log_info("success")
 #     return jsonify(success="success")
 
-@app.route('/pay_owner', methods=['POST'])
-def pay_owner():
-    destination_id = request.form['destination_id']
-    amount = request.form['amount']
+#@app.route('/pay_owner', methods=['POST'])
+def pay_owner(destination, amount_paid):
+    destination_id = destination
+    amount = amount_paid
 
     log_info("creating transfer")
     stripe.Transfer.create(
@@ -253,8 +253,9 @@ def pay_owner():
         destination=destination_id
     )
     log_info("success")
-    return jsonify(success="success")
+    #return jsonify(success="success")
 
+    
 
 @app.route('/customer_id', methods=['POST'])
 def create_customer():
@@ -639,6 +640,24 @@ def configure_scheduler():
 
 def conflict_job(text):
     print(text)
+
+
+@app.route('/schedule_transfer', methods=['POST'])
+def schedule_transfer():
+    global scheduler
+    destination_id = request.form['destination_id']
+    amount = request.form['amount']
+    spot_id = request.form['spotID']
+    startDateTime = request.form['startDateTime']
+
+    start_date = startDateTime + ":00"
+
+    scheduler.add_job(pay_owner, 'date', run_date= start_date, args=[destination_id, amount], id = spot_id + start_date, misfire_grace_time = 86400)
+
+    scheduler.print_jobs()
+
+    return jsonify(success="success")
+    
 
 @app.route('/APScheduler_testing', methods=['POST'])
 def APScheduler_testing():
