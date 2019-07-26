@@ -246,7 +246,7 @@ def pay_owner(destination, amount_paid):
     destination_id = destination
     amount = amount_paid
 
-    log_info("creating transfer")
+    log_info("creating transfer for" + str(amount))
     stripe.Transfer.create(
         amount=amount,
         currency="usd",
