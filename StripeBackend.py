@@ -652,9 +652,13 @@ def schedule_transfer():
 
     start_date = startDateTime + ":00"
 
-    scheduler.add_job(pay_owner, 'date', run_date= start_date, args=[destination_id, amount], id = spot_id + start_date, misfire_grace_time = 86400)
-
-    scheduler.print_jobs()
+    try:
+        scheduler.add_job(pay_owner, 'date', run_date= start_date, args=[destination_id, amount], id = spot_id + start_date, misfire_grace_time = 86400)
+        scheduler.print_jobs()
+    except:
+        daily_start_scheduler()
+        scheduler.add_job(pay_owner, 'date', run_date= start_date, args=[destination_id, amount], id = spot_id + start_date, misfire_grace_time = 86400)
+        scheduler.print_jobs()
 
     return jsonify(success="success")
     
@@ -684,9 +688,13 @@ def remove_specified_job():
 
     print(spot_id + start_date)
 
-    scheduler.remove_job(spot_id + start_date)
-
-    scheduler.print_jobs()
+    try:
+        scheduler.remove_job(spot_id + start_date)
+        scheduler.print_jobs()
+    except:
+        daily_start_scheduler()
+        scheduler.remove_job(spot_id + start_date)
+        scheduler.print_jobs()
     
     return jsonify(success="success")
 
