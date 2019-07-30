@@ -306,17 +306,21 @@ def charge():
     log_info("This is the customer token: " + customer_token)
     log_info("This is the spotID: " + spotID)
     log_info("This is the stateDate: " + startDate)
+
+    print("This is the stateDate: " + startDate)
     
     # just put the ruby code from github in python here...
     try:
         charge = stripe.Charge.create(
-            id = spotID + startDate,
+            #id = spotID + startDate,
             amount = amount, # remember that this is in cents
             currency = "usd",
             customer = customer_token,
             source = source,
             description = "Spotbird Parking Fee"
         )
+        print(charge)
+        print(charge.id)
     except stripe.error as e:
         return jsonify(message="Error creating charge: " + e.message)
     return jsonify(message="Charge successfully created")
