@@ -298,21 +298,19 @@ def charge():
     amount = request.form['amount']
     customer_token = request.form['customer_token']
     spotID = request.form['spotID']
-    stateDate = request.form['stateDate']
+    startDate = request.form['startDate']
 
     # just debug to see what I have so far...
     log_info("This is the source: " + amount)
     log_info("This is the source: " + source)
     log_info("This is the customer token: " + customer_token)
     log_info("This is the spotID: " + spotID)
-    log_info("This is the stateDate: " + stateDate)
-
-    print("This is the spotID via print: " + spotID)
+    log_info("This is the stateDate: " + startDate)
     
     # just put the ruby code from github in python here...
     try:
         charge = stripe.Charge.create(
-            id = spotID + stateDate,
+            id = spotID + startDate,
             amount = amount, # remember that this is in cents
             currency = "usd",
             customer = customer_token,
