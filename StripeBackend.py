@@ -720,7 +720,7 @@ def refund_charge():
       reason = "Reservation was canceled"
     )
     print(refund)
-    print(stripe.Charge.retrieve(chargeID)
+    print(stripe.Charge.retrieve(chargeID))
 
     return jsonify(success="success")
 
