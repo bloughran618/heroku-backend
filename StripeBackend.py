@@ -306,6 +306,8 @@ def charge():
     log_info("This is the customer token: " + customer_token)
     log_info("This is the spotID: " + spotID)
     log_info("This is the stateDate: " + startDate)
+
+    chargeID = spotID + startDate
     
     # just put the ruby code from github in python here...
     try:
@@ -318,7 +320,7 @@ def charge():
             description = "Spotbird Parking Fee"
         )
         print(charge.id)
-        charge.id = spotID
+        charge.id = chargeID
         print(charge)
     except stripe.error as e:
         return jsonify(message="Error creating charge: " + e.message)
