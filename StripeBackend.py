@@ -716,8 +716,7 @@ def refund_charge():
     
     refund = stripe.Refund.create(
       charge = chargeID,
-      currency = "usd",
-      reason = "Reservation was canceled"
+      currency = "usd"
     )
     print(refund)
     print(stripe.Charge.retrieve(chargeID))
