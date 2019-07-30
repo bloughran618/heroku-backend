@@ -312,7 +312,6 @@ def charge():
     # just put the ruby code from github in python here...
     try:
         charge = stripe.Charge.create(
-            #id = spotID + startDate,
             amount = amount, # remember that this is in cents
             currency = "usd",
             customer = customer_token,
@@ -706,6 +705,23 @@ def remove_specified_job():
         scheduler.remove_job(spot_id + start_date)
         scheduler.print_jobs()
     
+    return jsonify(success="success")
+
+@app.route('/refund_charge', methods=['POST'])
+def refund_charge():
+
+    spot_id = request.form['spot_id']
+    start_date = request.form['start_date']
+    chargeID = spot_id + start_date
+    
+    refund = stripe.Refund.create(
+      charge = chargeID,
+      currency = "usd",
+      reason = "Reservation was canceled"
+    )
+    print(refund)
+    print(stripe.Charge.retrieve(chargeID)
+
     return jsonify(success="success")
 
 @app.route('/start_scheduler', methods=['POST'])
