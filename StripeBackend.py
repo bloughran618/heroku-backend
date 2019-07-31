@@ -320,7 +320,8 @@ def charge():
         )
         print(charge.id)
         charge.id = chargeID
-        print(charge)
+        testCharge = stripe.Charge.retrieve(charge.id)
+        print(testCharge)
     except stripe.error as e:
         return jsonify(message="Error creating charge: " + e.message)
     return jsonify(message="Charge successfully created")
