@@ -307,7 +307,7 @@ def charge():
     log_info("This is the spotID: " + spotID)
     log_info("This is the stateDate: " + startDate)
 
-    chargeID = spotID + startDate
+    chargeID = "ch_" + spotID + startDate
     
     # just put the ruby code from github in python here...
     try:
