@@ -319,7 +319,6 @@ def charge():
             description = "Spotbird Parking Fee"
         )
         print(charge.id)
-        charge.id = chargeID
         testCharge = stripe.Charge.retrieve(charge.id)
         print(testCharge)
     except stripe.error as e:
