@@ -656,8 +656,7 @@ def schedule_transfer():
     start_date = startDateTime + ":00"
 
     try:
-        #scheduler.add_job(pay_owner, 'date', run_date= start_date, args=[destination_id, amount], id = spot_id + start_date, misfire_grace_time = 86400)
-        scheduler.add_job(pay_owner, 'date', run_date= start_date, id = spot_id + start_date, misfire_grace_time = 86400)
+        scheduler.add_job(pay_owner, 'date', run_date= start_date, args=[destination_id, amount], id = spot_id + start_date, misfire_grace_time = 86400)
         scheduler.print_jobs()
         print("In try method")
     except:
