@@ -243,19 +243,18 @@ def log_info(message):
 
 
 @app.route('/pay_owner', methods=['POST'])
-def pay_owner(destination, amount_paid):
-    log_info("We found the code to pay the owner")
+def pay_owner():
+    destination_id = request.form['destination_id']
+    amount = request.form['amount']
 
-    destination_id = destination
-    amount = amount_paid
-
-    log_info("creating transfer for" + str(amount))
+    log_info("creating transfer")
     stripe.Transfer.create(
         amount=amount,
         currency="usd",
         destination=destination_id
     )
     log_info("success")
+    return jsonify(success="success")
 
 
     
