@@ -242,6 +242,7 @@ def log_info(message):
 #     return jsonify(success="success")
 
 
+@app.route('/pay_owner', methods=['POST'])
 def pay_owner(destination, amount_paid):
     log_info("We found the code to pay the owner")
 
