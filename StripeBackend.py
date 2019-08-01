@@ -306,7 +306,7 @@ def charge():
         charge = stripe.Charge.create(
             amount = amount, # remember that this is in cents
             currency = "usd",
-            customer = customer_token,
+            # customer = customer_token,
             source = source,
             description = "Spotbird Parking Fee"
         )
