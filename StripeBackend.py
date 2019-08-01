@@ -297,17 +297,11 @@ def charge():
     source = request.form['source']
     amount = request.form['amount']
     customer_token = request.form['customer_token']
-    spotID = request.form['spotID']
-    startDate = request.form['startDate']
 
     # just debug to see what I have so far...
     log_info("This is the source: " + amount)
     log_info("This is the source: " + source)
     log_info("This is the customer token: " + customer_token)
-    log_info("This is the spotID: " + spotID)
-    log_info("This is the stateDate: " + startDate)
-
-    chargeID = "ch_" + spotID + startDate
     
     # just put the ruby code from github in python here...
     try:
