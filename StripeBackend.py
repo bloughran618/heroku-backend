@@ -295,17 +295,11 @@ def charge():
     source = request.form['source']
     amount = request.form['amount']
     customer_token = request.form['customer_token']
-    spotID = request.form['spotID']
-    startDate = request.form['startDate']
 
     # just debug to see what I have so far...
     log_info("This is the source: " + amount)
     log_info("This is the source: " + source)
     log_info("This is the customer token: " + customer_token)
-    log_info("This is the spotID: " + spotID)
-    log_info("This is the stateDate: " + startDate)
-
-    chargeID = "ch_" + spotID + startDate
     
     # just put the ruby code from github in python here...
     try:
@@ -598,7 +592,6 @@ def send_email():
         response.status_code = 400
         return response
 
-
 @app.route('/fetch_Balance', methods=['POST'])
 def fetch_Balance():
     account_id = request.form['account_id']
@@ -663,10 +656,12 @@ def schedule_transfer():
     try:
         scheduler.add_job(pay_owner, 'date', run_date= start_date, args=[destination_id, amount], id = spot_id + start_date, misfire_grace_time = 86400)
         scheduler.print_jobs()
+        print("In try method")
     except:
         daily_start_scheduler()
         scheduler.add_job(pay_owner, 'date', run_date= start_date, args=[destination_id, amount], id = spot_id + start_date, misfire_grace_time = 86400)
         scheduler.print_jobs()
+        print("In except method")
 
     return jsonify(success="success")
     
@@ -752,13 +747,9 @@ def daily_start_scheduler():
 '''
 account_id = "acct_1EKc67BuN2uG9scf"
 print(str(account_id))
->>>>>>> fb70f3fc01fe3b929919875cc149b0f033f7a5b3
 balance = stripe.Balance.retrieve(
   stripe_account=account_id
 )
 print("Balance is: " + str(balance))
-<<<<<<< HEAD
-print("The integer is: " + str(balance.available[0].amount))
-=======
 print("The integer is: " + str(balance.available[0].amount)) 
 '''
