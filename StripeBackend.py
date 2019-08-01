@@ -659,10 +659,12 @@ def schedule_transfer():
         #scheduler.add_job(pay_owner, 'date', run_date= start_date, args=[destination_id, amount], id = spot_id + start_date, misfire_grace_time = 86400)
         scheduler.add_job(pay_owner, 'date', run_date= start_date, id = spot_id + start_date, misfire_grace_time = 86400)
         scheduler.print_jobs()
+        print("In try method")
     except:
         daily_start_scheduler()
         scheduler.add_job(pay_owner, 'date', run_date= start_date, args=[destination_id, amount], id = spot_id + start_date, misfire_grace_time = 86400)
         scheduler.print_jobs()
+        print("In except method")
 
     return jsonify(success="success")
     
