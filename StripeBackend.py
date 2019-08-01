@@ -242,19 +242,17 @@ def log_info(message):
 #     return jsonify(success="success")
 
 
-@app.route('/pay_owner', methods=['POST'])
-def pay_owner():
-    destination_id = request.form['destination_id']
-    amount = request.form['amount']
+def pay_owner(destination, amount_paid):
+    destination_id = destination
+    amount = amount_paid
 
-    log_info("creating transfer")
+    log_info("creating transfer for" + str(amount))
     stripe.Transfer.create(
         amount=amount,
         currency="usd",
         destination=destination_id
     )
     log_info("success")
-    return jsonify(success="success")
 
 
     
@@ -596,7 +594,6 @@ def send_email():
         response.status_code = 400
         return response
 
-
 @app.route('/fetch_Balance', methods=['POST'])
 def fetch_Balance():
     account_id = request.form['account_id']
@@ -659,7 +656,8 @@ def schedule_transfer():
     start_date = startDateTime + ":00"
 
     try:
-        scheduler.add_job(pay_owner, 'date', run_date= start_date, args=[destination_id, amount], id = spot_id + start_date, misfire_grace_time = 86400)
+        #scheduler.add_job(pay_owner, 'date', run_date= start_date, args=[destination_id, amount], id = spot_id + start_date, misfire_grace_time = 86400)
+        scheduler.add_job(pay_owner, 'date', run_date= start_date, id = spot_id + start_date, misfire_grace_time = 86400)
         scheduler.print_jobs()
     except:
         daily_start_scheduler()
@@ -750,13 +748,9 @@ def daily_start_scheduler():
 '''
 account_id = "acct_1EKc67BuN2uG9scf"
 print(str(account_id))
->>>>>>> fb70f3fc01fe3b929919875cc149b0f033f7a5b3
 balance = stripe.Balance.retrieve(
   stripe_account=account_id
 )
 print("Balance is: " + str(balance))
-<<<<<<< HEAD
-print("The integer is: " + str(balance.available[0].amount))
-=======
 print("The integer is: " + str(balance.available[0].amount)) 
 '''
