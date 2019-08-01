@@ -236,6 +236,7 @@ def log_info(message):
 
 @app.route('/pay_owner', methods=['POST'])
 def pay_owner():
+    log_info("We found the function to pay the owner")
     destination_id = request.form['destination_id']
     amount = request.form['amount']
 
@@ -599,6 +600,11 @@ def send_email():
         response.status_code = 400
         return response
 
-account_id = "acct_1ETJdJEZbKHvvn5G"
+account_id = "acct_1EKc67BuN2uG9scf"
 account = stripe.Account.retrieve(account_id)
 print(str(account))
+balance = stripe.Balance.retrieve(
+  stripe_account=account_id
+)
+print("Balance is: " + str(balance))
+print("The integer is: " + str(balance.available[0].amount))
