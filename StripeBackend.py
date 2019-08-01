@@ -315,6 +315,7 @@ def charge():
         print(testCharge)
     # except stripe.error as e:
     except Exception as e:
+        log_info("The exception is: " + str(e))
         return jsonify(message="Error creating charge: " + e.message)
     return jsonify(message="Charge successfully created")
 
