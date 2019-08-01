@@ -242,17 +242,19 @@ def log_info(message):
 #     return jsonify(success="success")
 
 
-def pay_owner(destination, amount_paid):
-    destination_id = destination
-    amount = amount_paid
+@app.route('/pay_owner', methods=['POST'])
+def pay_owner():
+    destination_id = request.form['destination_id']
+    amount = request.form['amount']
 
-    log_info("creating transfer for" + str(amount))
+    log_info("creating transfer")
     stripe.Transfer.create(
         amount=amount,
         currency="usd",
         destination=destination_id
     )
     log_info("success")
+    return jsonify(success="success")
 
 
     
@@ -594,6 +596,7 @@ def send_email():
         response.status_code = 400
         return response
 
+
 @app.route('/fetch_Balance', methods=['POST'])
 def fetch_Balance():
     account_id = request.form['account_id']
@@ -747,9 +750,13 @@ def daily_start_scheduler():
 '''
 account_id = "acct_1EKc67BuN2uG9scf"
 print(str(account_id))
+>>>>>>> fb70f3fc01fe3b929919875cc149b0f033f7a5b3
 balance = stripe.Balance.retrieve(
   stripe_account=account_id
 )
 print("Balance is: " + str(balance))
+<<<<<<< HEAD
+print("The integer is: " + str(balance.available[0].amount))
+=======
 print("The integer is: " + str(balance.available[0].amount)) 
 '''
