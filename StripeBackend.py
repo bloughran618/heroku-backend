@@ -8,10 +8,17 @@ import json
 import requests
 from io import BytesIO
 from email.message import Message
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+from pytz import timezone
 from pythemis.smessage import SMessage
 from pythemis.exception import ThemisError
 from pythemis.scell import SCellSeal
 import base64
+from Crypto.Cipher import AES
+import binascii
+import psycopg2
+
 # import firebase
 try:
     import pyrebase
@@ -234,21 +241,23 @@ def log_info(message):
 #     log_info("success")
 #     return jsonify(success="success")
 
-@app.route('/pay_owner', methods=['POST'])
-def pay_owner():
-    log_info("We found the function to pay the owner")
-    destination_id = request.form['destination_id']
-    amount = request.form['amount']
 
-    log_info("creating transfer")
+def pay_owner(destination, amount_paid):
+    log_info("We found the code to pay the owner")
+
+    destination_id = destination
+    amount = amount_paid
+
+    log_info("creating transfer for" + str(amount))
     stripe.Transfer.create(
         amount=amount,
         currency="usd",
         destination=destination_id
     )
     log_info("success")
-    return jsonify(success="success")
 
+
+    
 
 @app.route('/customer_id', methods=['POST'])
 def create_customer():
@@ -290,12 +299,18 @@ def charge():
     source = request.form['source']
     amount = request.form['amount']
     customer_token = request.form['customer_token']
+    spotID = request.form['spotID']
+    startDate = request.form['startDate']
 
     # just debug to see what I have so far...
     log_info("This is the source: " + amount)
     log_info("This is the source: " + source)
     log_info("This is the customer token: " + customer_token)
+    log_info("This is the spotID: " + spotID)
+    log_info("This is the stateDate: " + startDate)
 
+    chargeID = "ch_" + spotID + startDate
+    
     # just put the ruby code from github in python here...
     try:
         charge = stripe.Charge.create(
@@ -305,6 +320,9 @@ def charge():
             source = source,
             description = "Spotbird Parking Fee"
         )
+        print(charge.id)
+        testCharge = stripe.Charge.retrieve(charge.id)
+        print(testCharge)
     except stripe.error as e:
         return jsonify(message="Error creating charge: " + e.message)
     return jsonify(message="Charge successfully created")
@@ -345,14 +363,12 @@ def add_connect_info():
 
     # dummy code while waiting for stripe
     account.save()
-    # account.individual.address.name = request.form["name"]
-    account.individual.address.line1 = request.form["line1"]
-    account.individual.address.line2 = request.form["line2"]
-    account.individual.address.city = request.form["city"]
-    account.individual.address.state = request.form["state"]
-    log_info("The given postal code: " + request.form["postalcode"])
-    account.individual.address.postal_code = request.form["postalcode"]
+    account.individual.address.city = "Moon Colony #26"
     account.individual.address.country = "US"
+    account.individual.address.line1 = "100 Bowling Alley"
+    account.individual.address.postal_code = "07834"
+    account.individual.address.state = "AK"
+
 
     accept_services_agreement(account_id, ip_address)
     log_info("Successfully accepted TOS")
@@ -434,29 +450,15 @@ def check_stripe_account():
 
 
 # update this funciton for real encryption
-def decrypt_ssn(encrypted):
-
-    scell = SCellSeal(b'UkVDMgAAAC13PCVZAKOczZXUpvkhsC+xvwWnv3CLmlG0Wzy8ZBMnT+2yx/dg')
-    print(encrypted)
-    SSN = scell.decrypt(encrypted)
-    print(int(SSN))
-    return int(SSN)
+def decrypt_ssn(encrypted_text):
+    print(encrypted_text)
     
-    '''
-    private_key_string = b"UkVDMgAAAC1FsVa6AMGljYqtNWQ+7r4RjXTabLZxZ/14EXmi6ec2e1vrCmyR"
-    public_key_string = b"VUVDMgAAAC1SsL32Axjosnf2XXUwm/4WxPlZauQ+v+0eOOjpwMN/EO+Huh5d"
+    aes = AES.new(b'This is a key123', AES.MODE_CFB, b'0000000000000000')
+    encrypted_text_bytes = binascii.a2b_hex(encrypted_text)
+    decrypted_text = aes.decrypt(encrypted_text_bytes)
 
-    private_key = base64.b64encode(private_key_string)
-    public_key = base64.b64encode(public_key_string)
-    
-    smessage = SMessage(private_key_string, public_key_string)
-    try:
-        ssn = smessage.unwrap(encrypted)
-        print(ssn)
-        return int(ssn)
-    except ThemisError as e:
-        print(e)
-    '''
+    print(int(decrypted_text))
+    return int(decrypted_text)
 
 @app.route('/save_ssn', methods=['POST'])
 def save_ssn():
@@ -465,9 +467,9 @@ def save_ssn():
     account = stripe.Account.retrieve(account_id)
     encrypted_ssn = request.form['encrypted_ssn']
     decrypted_ssn = decrypt_ssn(encrypted_ssn)
-    # print("SSN decrypted")
-    account["individual"]["id_number"] = decrypted_ssn
-    account.save()
+    print("SSN decrypted")
+    #account["individual"]["id_number"] = decrypted_ssn
+    #account.save()
     return jsonify(success="success")
 
 
@@ -600,11 +602,167 @@ def send_email():
         response.status_code = 400
         return response
 
+
+@app.route('/fetch_Balance', methods=['POST'])
+def fetch_Balance():
+    account_id = request.form['account_id']
+    balance = stripe.Balance.retrieve(stripe_account=account_id)
+    print("Balance is: " + str(balance.available[0].amount))
+    return jsonify(Balance = balance.available[0].amount)
+
+@app.route('/fetch_LifeTimeBalance', methods=['POST'])
+def fetch_LifeTimeBalance():
+    account_id = request.form['account_id']
+    totalTransfer = 0
+    transfers = stripe.Transfer.list(destination = account_id, limit = 100)
+    for eachTransfer in transfers:
+        totalTransfer += int(eachTransfer.amount)
+    print("Lifetime total balance: " + str(totalTransfer))
+    return jsonify(Transfer = totalTransfer)
+
+@app.route('/test_heroku_backend', methods=['POST'])
+def test_heroku_backend():
+    return jsonify(success = 'success')
+
+@app.route('/test_stripe', methods=['POST'])
+def test_stripe():
+    account_id = request.form['account_id']
+    balance = stripe.Balance.retrieve(stripe_account=account_id)
+    return jsonify(Balance = balance.available[0].amount)
+
+global scheduler
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+def configure_scheduler():
+    global scheduler
+    
+    jobstores = {
+        'default': SQLAlchemyJobStore(url=DATABASE_URL)
+    }
+    executors = {
+        'default': {'type': 'threadpool', 'max_workers': 20}
+    }
+    job_defaults = {
+        'coalesce': True,
+        'max_instances': 3
+    }
+    scheduler = BackgroundScheduler()
+    scheduler.configure(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone='America/New_York')
+
+
+def conflict_job(text):
+    print(text)
+
+
+@app.route('/schedule_transfer', methods=['POST'])
+def schedule_transfer():
+    global scheduler
+    destination_id = request.form['destination_id']
+    amount = request.form['amount']
+    spot_id = request.form['spotID']
+    startDateTime = request.form['startDateTime']
+
+    start_date = startDateTime + ":00"
+
+    try:
+        scheduler.add_job(pay_owner, 'date', run_date= start_date, args=[destination_id, amount], id = spot_id + start_date, misfire_grace_time = 86400)
+        scheduler.print_jobs()
+    except:
+        daily_start_scheduler()
+        scheduler.add_job(pay_owner, 'date', run_date= start_date, args=[destination_id, amount], id = spot_id + start_date, misfire_grace_time = 86400)
+        scheduler.print_jobs()
+
+    return jsonify(success="success")
+    
+def conflict_job(text):
+    print(text)
+
+@app.route('/APScheduler_testing', methods=['POST'])
+def APScheduler_testing():
+
+    global scheduler
+
+    scheduler.print_jobs()
+
+    scheduler.add_job(conflict_job, 'date', run_date= "2019-07-25 12:15:00", args=["Running job at 12:15"], misfire_grace_time = 86400)
+    
+    scheduler.print_jobs()
+    
+    return jsonify(success="success")
+
+@app.route('/remove_specified_job', methods=['POST'])
+def remove_specified_job():
+    global scheduler
+
+    spot_id = request.form['spot_id']
+    start_date = request.form['start_date']
+    start_date = start_date + ":00"
+
+    print(spot_id + start_date)
+
+    try:
+        scheduler.remove_job(spot_id + start_date)
+        scheduler.print_jobs()
+    except:
+        daily_start_scheduler()
+        scheduler.remove_job(spot_id + start_date)
+        scheduler.print_jobs()
+    
+    return jsonify(success="success")
+
+@app.route('/refund_charge', methods=['POST'])
+def refund_charge():
+
+    spot_id = request.form['spot_id']
+    start_date = request.form['start_date']
+    chargeID = spot_id + start_date
+    
+    refund = stripe.Refund.create(
+      charge = chargeID,
+      currency = "usd"
+    )
+    print(refund)
+    print(stripe.Charge.retrieve(chargeID))
+
+    return jsonify(success="success")
+
+@app.route('/start_scheduler', methods=['POST'])
+def start_scheduler():
+    global scheduler
+
+    try:
+        configure_scheduler()
+        scheduler.start()
+    except:
+        pass
+    scheduler.print_jobs()
+    
+    return jsonify(success="success")
+
+
+def daily_start_scheduler():
+    #This function is for the heroku scheduler add-on
+    global scheduler
+
+    try:
+        configure_scheduler()
+        scheduler.start()
+    except:
+        pass
+    scheduler.print_jobs()
+
+    return None
+
+'''
 account_id = "acct_1EKc67BuN2uG9scf"
-account = stripe.Account.retrieve(account_id)
-print(str(account))
+print(str(account_id))
+>>>>>>> fb70f3fc01fe3b929919875cc149b0f033f7a5b3
 balance = stripe.Balance.retrieve(
   stripe_account=account_id
 )
 print("Balance is: " + str(balance))
+<<<<<<< HEAD
 print("The integer is: " + str(balance.available[0].amount))
+=======
+print("The integer is: " + str(balance.available[0].amount)) 
+'''
