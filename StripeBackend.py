@@ -303,16 +303,23 @@ def charge():
     
     # just put the ruby code from github in python here...
     try:
-        charge = stripe.Charge.create(
-            amount = amount, # remember that this is in cents
-            currency = "usd",
-            # customer = customer_token,
-            source = source,
-            description = "Spotbird Parking Fee"
+        # charge = stripe.Charge.create(
+        #     amount=amount, # remember that this is in cents
+        #     currency="usd",
+        #     # customer = customer_token,
+        #     source=source,
+        #     description="Spotbird Parking Fee"
+        # )
+        # print(charge.id)
+        # testCharge = stripe.Charge.retrieve(charge.id)
+        # print(testCharge)
+
+        stripe.paymentIntent.create(
+            amount=amount,
+            currency='usd',
+            payment_method=source,
+            payment_method_types=['card']
         )
-        print(charge.id)
-        testCharge = stripe.Charge.retrieve(charge.id)
-        print(testCharge)
     # except stripe.error as e:
     except Exception as e:
         log_info("The exception is: " + str(e))
