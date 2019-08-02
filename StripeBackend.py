@@ -314,7 +314,7 @@ def charge():
         # testCharge = stripe.Charge.retrieve(charge.id)
         # print(testCharge)
 
-        stripe.paymentIntent.create(
+        stripe.PaymentIntent.create(
             amount=amount,
             currency='usd',
             payment_method=source,
