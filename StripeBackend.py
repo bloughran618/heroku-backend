@@ -317,6 +317,7 @@ def charge():
         stripe.PaymentIntent.create(
             amount=amount,
             currency='usd',
+            customer=customer_token,
             payment_method=source,
             payment_method_types=['card']
         )
