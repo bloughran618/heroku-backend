@@ -445,10 +445,10 @@ def check_stripe_account():
 def decrypt_ssn(encrypted_text):
     print(encrypted_text)
     
-    aes = AES.new(b'This is a key123', AES.MODE_CFB, b'0000000000000000')
+    aes = AES.new(b'This is a key123', AES.MODE_CFB, b'0000000000000000', segment_size = 128)
     encrypted_text_bytes = binascii.a2b_hex(encrypted_text)
     decrypted_text = aes.decrypt(encrypted_text_bytes)
-
+    print(decrypted_text)
     print(int(decrypted_text))
     return int(decrypted_text)
 
