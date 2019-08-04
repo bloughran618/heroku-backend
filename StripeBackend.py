@@ -325,7 +325,11 @@ def charge():
         log_info(intent)
         id = intent["id"]
         log_info("ID: " + str(id))
-        stripe.PaymentIntent.capture(id, amount)
+        
+        stripe.PaymentIntent.capture(
+            id,
+            amount_to_ccapture=amount
+        )
     # except stripe.error as e:
     except Exception as e:
         log_info("The exception is: " + str(e))
