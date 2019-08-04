@@ -314,13 +314,15 @@ def charge():
         # testCharge = stripe.Charge.retrieve(charge.id)
         # print(testCharge)
 
-        stripe.PaymentIntent.create(
+        intent = stripe.PaymentIntent.create(
             amount=amount,
             currency='usd',
             customer=customer_token,
             payment_method=source,
             payment_method_types=['card']
         )
+
+        log_info(intent)
     # except stripe.error as e:
     except Exception as e:
         log_info("The exception is: " + str(e))
