@@ -325,10 +325,10 @@ def charge():
         log_info(intent)
         id = intent["id"]
         log_info("ID: " + str(id))
-        
-        stripe.PaymentIntent.capture(
+
+        capture = stripe.PaymentIntent.confirm(
             id,
-            amount_to_ccapture=amount
+            payment_method=intent["payment_method_types"][0]
         )
     # except stripe.error as e:
     except Exception as e:
