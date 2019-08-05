@@ -255,6 +255,8 @@ def pay_owner(destination, amount_paid):
     log_info("success")
 
 
+    
+
 @app.route('/customer_id', methods=['POST'])
 def create_customer():
     log_info("Creating a customer ID!!!")
@@ -303,27 +305,17 @@ def charge():
     
     # just put the ruby code from github in python here...
     try:
-        # charge = stripe.Charge.create(
-        #     amount=amount, # remember that this is in cents
-        #     currency="usd",
-        #     # customer = customer_token,
-        #     source=source,
-        #     description="Spotbird Parking Fee"
-        # )
-        # print(charge.id)
-        # testCharge = stripe.Charge.retrieve(charge.id)
-        # print(testCharge)
-
-        stripe.PaymentIntent.create(
-            amount=amount,
-            currency='usd',
-            customer=customer_token,
-            payment_method=source,
-            payment_method_types=['card']
+        charge = stripe.Charge.create(
+            amount = amount, # remember that this is in cents
+            currency = "usd",
+            customer = customer_token,
+            source = source,
+            description = "Spotbird Parking Fee"
         )
-    # except stripe.error as e:
-    except Exception as e:
-        log_info("The exception is: " + str(e))
+        print(charge.id)
+        testCharge = stripe.Charge.retrieve(charge.id)
+        print(testCharge)
+    except stripe.error as e:
         return jsonify(message="Error creating charge: " + e.message)
     return jsonify(message="Charge successfully created")
 
@@ -456,8 +448,6 @@ def decrypt_ssn(encrypted_text):
     aes = AES.new(b'This is a key123', AES.MODE_CFB, b'0000000000000000', segment_size = 128)
     encrypted_text_bytes = binascii.a2b_hex(encrypted_text)
     decrypted_text = aes.decrypt(encrypted_text_bytes)
-    print(decrypted_text)
-    print(int(decrypted_text))
     return int(decrypted_text)
 
 @app.route('/save_ssn', methods=['POST'])
