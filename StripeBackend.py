@@ -337,7 +337,7 @@ def charge():
     except Exception as e:
         log_info("The exception is: " + str(e))
         return jsonify(message="Error creating charge: " + e.message)
-    return jsonify(message="Charge successfully created", paymentIntent_id = intent_id)
+    return jsonify(paymentIntent_id = intent_id)
 
 
 @app.route('/account_id', methods=['POST'])
