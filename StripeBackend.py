@@ -305,19 +305,39 @@ def charge():
     
     # just put the ruby code from github in python here...
     try:
-        charge = stripe.Charge.create(
-            amount = amount, # remember that this is in cents
-            currency = "usd",
-            customer = customer_token,
-            source = source,
-            description = "Spotbird Parking Fee"
+        # charge = stripe.Charge.create(
+        #     amount=amount, # remember that this is in cents
+        #     currency="usd",
+        #     # customer = customer_token,
+        #     source=source,
+        #     description="Spotbird Parking Fee"
+        # )
+        # print(charge.id)
+        # testCharge = stripe.Charge.retrieve(charge.id)
+        # print(testCharge)
+
+        intent = stripe.PaymentIntent.create(
+            amount=amount,
+            currency='usd',
+            customer=customer_token,
+            payment_method=source,
+            payment_method_types=['card']
         )
-        print(charge.id)
-        testCharge = stripe.Charge.retrieve(charge.id)
-        print(testCharge)
-    except stripe.error as e:
+
+        log_info(intent)
+        intent_id = intent["id"]
+        payment_method = intent["payment_method"]
+        log_info("ID: " + str(intent_id))
+
+        capture = stripe.PaymentIntent.confirm(
+            id,
+            payment_method=payment_method
+        )
+    # except stripe.error as e:
+    except Exception as e:
+        log_info("The exception is: " + str(e))
         return jsonify(message="Error creating charge: " + e.message)
-    return jsonify(message="Charge successfully created")
+    return jsonify(message="Charge successfully created", paymentIntent_id = intent_id)
 
 
 @app.route('/account_id', methods=['POST'])
@@ -704,16 +724,12 @@ def remove_specified_job():
 @app.route('/refund_charge', methods=['POST'])
 def refund_charge():
 
-    spot_id = request.form['spot_id']
-    start_date = request.form['start_date']
-    chargeID = spot_id + start_date
+    paymentIntent_id = request.form['paymentIntent_id']
     
-    refund = stripe.Refund.create(
-      charge = chargeID,
-      currency = "usd"
-    )
-    print(refund)
-    print(stripe.Charge.retrieve(chargeID))
+    intent = stripe.PaymentIntent.retrieve(paymentIntent_id)
+    intent['charges']['data'][0].refund()
+
+    print(intent['charges']['data'][0])
 
     return jsonify(success="success")
 
