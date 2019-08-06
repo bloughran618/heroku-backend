@@ -334,9 +334,11 @@ def charge():
             payment_method=payment_method
         )
     # except stripe.error as e:
-    except Exception as e:
+    except:
+        pass
+    '''except Exception as e:
         log_info("The exception is: " + str(e))
-        return jsonify(message="Error creating charge: " + e.message)
+        return jsonify(message="Error creating charge: " + e.message)'''
     return jsonify(paymentIntent_id = intent_id)
 
 
