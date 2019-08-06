@@ -333,6 +333,7 @@ def charge():
             id,
             payment_method=payment_method
         )
+        
     # except stripe.error as e:
     except:
         pass
