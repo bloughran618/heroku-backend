@@ -255,6 +255,8 @@ def pay_owner(destination, amount_paid):
     log_info("success")
 
 
+    
+
 @app.route('/customer_id', methods=['POST'])
 def create_customer():
     log_info("Creating a customer ID!!!")
@@ -322,20 +324,23 @@ def charge():
             payment_method_types=['card']
         )
 
-        # log_info(intent)
-        id = intent["id"]
+        log_info(intent)
+        intent_id = intent["id"]
         payment_method = intent["payment_method"]
-        # log_info("ID: " + str(id))
+        log_info("ID: " + str(intent_id))
 
         capture = stripe.PaymentIntent.confirm(
-            id,
+            intent_id,
             payment_method=payment_method
         )
+        
     # except stripe.error as e:
-    except Exception as e:
+    except:
+        pass
+    '''except Exception as e:
         log_info("The exception is: " + str(e))
-        return jsonify(message="Error creating charge: " + e.message)
-    return jsonify(message="Charge successfully created")
+        return jsonify(message="Error creating charge: " + e.message)'''
+    return jsonify(paymentIntent_id = intent_id)
 
 
 @app.route('/account_id', methods=['POST'])
@@ -466,8 +471,6 @@ def decrypt_ssn(encrypted_text):
     aes = AES.new(b'This is a key123', AES.MODE_CFB, b'0000000000000000', segment_size = 128)
     encrypted_text_bytes = binascii.a2b_hex(encrypted_text)
     decrypted_text = aes.decrypt(encrypted_text_bytes)
-    print(decrypted_text)
-    print(int(decrypted_text))
     return int(decrypted_text)
 
 @app.route('/save_ssn', methods=['POST'])
@@ -724,16 +727,12 @@ def remove_specified_job():
 @app.route('/refund_charge', methods=['POST'])
 def refund_charge():
 
-    spot_id = request.form['spot_id']
-    start_date = request.form['start_date']
-    chargeID = spot_id + start_date
+    paymentIntent_id = request.form['paymentIntent_id']
     
-    refund = stripe.Refund.create(
-      charge = chargeID,
-      currency = "usd"
-    )
-    print(refund)
-    print(stripe.Charge.retrieve(chargeID))
+    intent = stripe.PaymentIntent.retrieve(paymentIntent_id)
+    intent['charges']['data'][0].refund()
+
+    print(intent['charges']['data'][0])
 
     return jsonify(success="success")
 
