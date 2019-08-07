@@ -330,7 +330,7 @@ def charge():
         log_info("ID: " + str(intent_id))
 
         capture = stripe.PaymentIntent.confirm(
-            id,
+            intent_id,
             payment_method=payment_method
         )
         
