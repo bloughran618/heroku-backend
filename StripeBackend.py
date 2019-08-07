@@ -324,10 +324,10 @@ def charge():
             payment_method_types=['card']
         )
 
-        log_info(intent)
+        #log_info(intent)
         intent_id = intent["id"]
         payment_method = intent["payment_method"]
-        log_info("ID: " + str(intent_id))
+        #log_info("ID: " + str(intent_id))
 
         capture = stripe.PaymentIntent.confirm(
             intent_id,
@@ -728,11 +728,11 @@ def remove_specified_job():
 def refund_charge():
 
     paymentIntent_id = request.form['paymentIntent_id']
+
+    print("Intent ID: " + paymentIntent_id)
     
     intent = stripe.PaymentIntent.retrieve(paymentIntent_id)
     intent['charges']['data'][0].refund()
-
-    print(intent['charges']['data'][0])
 
     return jsonify(success="success")
 
