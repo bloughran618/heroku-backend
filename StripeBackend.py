@@ -322,10 +322,10 @@ def charge():
             payment_method_types=['card']
         )
 
-        log_info(intent)
+        # log_info(intent)
         id = intent["id"]
         payment_method = intent["payment_method"]
-        log_info("ID: " + str(id))
+        # log_info("ID: " + str(id))
 
         capture = stripe.PaymentIntent.confirm(
             id,
