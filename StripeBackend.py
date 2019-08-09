@@ -475,7 +475,6 @@ def decrypt_ssn(encrypted_text):
 
 @app.route('/save_ssn', methods=['POST'])
 def save_ssn():
-    print("hello")
     account_id = request.form['account_id']
     account = stripe.Account.retrieve(account_id)
     encrypted_ssn = request.form['encrypted_ssn']
@@ -662,10 +661,6 @@ def configure_scheduler():
     scheduler.configure(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone='America/New_York')
 
 
-def conflict_job(text):
-    print(text)
-
-
 @app.route('/schedule_transfer', methods=['POST'])
 def schedule_transfer():
     global scheduler
@@ -686,22 +681,6 @@ def schedule_transfer():
         scheduler.print_jobs()
         print("In except method")
 
-    return jsonify(success="success")
-    
-def conflict_job(text):
-    print(text)
-
-@app.route('/APScheduler_testing', methods=['POST'])
-def APScheduler_testing():
-
-    global scheduler
-
-    scheduler.print_jobs()
-
-    scheduler.add_job(conflict_job, 'date', run_date= "2019-07-25 12:15:00", args=["Running job at 12:15"], misfire_grace_time = 86400)
-    
-    scheduler.print_jobs()
-    
     return jsonify(success="success")
 
 @app.route('/remove_specified_job', methods=['POST'])
