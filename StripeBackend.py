@@ -336,6 +336,7 @@ def charge():
         
     # except stripe.error as e:
     except:
+        log_info("PAYMENT FAILED!!!")
         pass
     '''except Exception as e:
         log_info("The exception is: " + str(e))
