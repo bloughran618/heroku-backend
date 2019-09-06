@@ -386,6 +386,7 @@ def add_connect_info():
     account.individual.address.postal_code = request.form['postalcode']
     account.individual.address.state = request.form['state']
 
+    account.business_profile.url = 'https://spotbirdparking.com'
 
     accept_services_agreement(account_id, ip_address)
     log_info("Successfully accepted TOS")
