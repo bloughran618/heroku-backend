@@ -379,12 +379,12 @@ def add_connect_info():
 
     # dummy code while waiting for stripe
     account.save()
-    account.individual.address.city = request.form.city
+    account.individual.address.city = request.form['city']
     account.individual.address.country = "US"
-    account.individual.address.line1 = request.form.line1
-    account.individual.address.line2 = request.form.line2
-    account.individual.address.postal_code = request.form.postalcode
-    account.individual.address.state = request.form.state
+    account.individual.address.line1 = request.form['line1']
+    account.individual.address.line2 = request.form['line2']
+    account.individual.address.postal_code = request.form['postalcode']
+    account.individual.address.state = request.form['state']
 
 
     accept_services_agreement(account_id, ip_address)
