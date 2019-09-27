@@ -344,7 +344,7 @@ def charge():
     return jsonify(paymentIntent_id=intent_id)
 
 
-@app.route('create_payment_intent', methods=['POST'])
+@app.route('/create_payment_intent', methods=['POST'])
 def create_payment_intent():
     # source = request.form['source']
     amount = request.form['amount']
