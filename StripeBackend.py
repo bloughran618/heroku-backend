@@ -366,7 +366,7 @@ def create_payment_intent():
     log_info("intent created")
     client_secret = intent['client_secret']
 
-    log_info("client secret is: " + client_secret)
+    log_info("client secret is being returned")
 
     return jsonify(clientSecret=client_secret)
 
