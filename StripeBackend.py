@@ -299,7 +299,7 @@ def charge():
     customer_token = request.form['customer_token']
 
     # just debug to see what I have so far...
-    log_info("This is the source: " + amount)
+    log_info("This is the amount: " + amount)
     log_info("This is the source: " + source)
     log_info("This is the customer token: " + customer_token)
     
@@ -351,9 +351,9 @@ def create_payment_intent():
     # customer_token = request.form['customer_token']
 
     # just debug to see what I have so far...
-    log_info("This is the source: " + amount)
-    log_info("This is the source: " + source)
-    log_info("This is the customer token: " + customer_token)
+    log_info("This is the amount: " + amount)
+    # log_info("This is the source: " + source)
+    # log_info("This is the customer token: " + customer_token)
 
     intent = stripe.PaymentIntent.create(
         amount=amount,
