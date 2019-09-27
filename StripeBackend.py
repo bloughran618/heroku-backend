@@ -363,7 +363,10 @@ def create_payment_intent():
         # payment_method_types=['card']
     )
 
+    log_info("intent created")
     client_secret = intent['client_secret']
+
+    log_info("client secret is: " + client_secret)
 
     return jsonify(clientSecret=client_secret)
 
