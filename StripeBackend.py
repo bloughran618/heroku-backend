@@ -341,7 +341,31 @@ def charge():
     '''except Exception as e:
         log_info("The exception is: " + str(e))
         return jsonify(message="Error creating charge: " + e.message)'''
-    return jsonify(paymentIntent_id = intent_id)
+    return jsonify(paymentIntent_id=intent_id)
+
+
+@app.route('create_payment_intent', methods=['POST'])
+def create_payment_intent():
+    # source = request.form['source']
+    amount = request.form['amount']
+    # customer_token = request.form['customer_token']
+
+    # just debug to see what I have so far...
+    log_info("This is the source: " + amount)
+    log_info("This is the source: " + source)
+    log_info("This is the customer token: " + customer_token)
+
+    intent = stripe.PaymentIntent.create(
+        amount=amount,
+        currency='usd',
+        # customer=customer_token,
+        # payment_method=source,
+        # payment_method_types=['card']
+    )
+
+    client_secret = intent['client_secret']
+
+    return jsonify(clientSecret=client_secret)
 
 
 @app.route('/account_id', methods=['POST'])
