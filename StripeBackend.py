@@ -252,7 +252,7 @@ def pay_owner(destination, amount_paid):
         currency="usd",
         destination=destination_id
     )
-    log_info("success")
+    log_info("transfer success")
 
 
     
@@ -286,7 +286,7 @@ def ephemeral_key():
         stripe_version=api_version)
     log_info("finish creating key")
 
-    log_info(key)
+    # log_info(key)
 
     # log_info(jsonify(key))
     return jsonify(key)
@@ -300,10 +300,9 @@ def charge():
 
     # just debug to see what I have so far...
     log_info("This is the amount: " + amount)
-    log_info("This is the source: " + source)
-    log_info("This is the customer token: " + customer_token)
+    # log_info("This is the source: " + source)
+    # log_info("This is the customer token: " + customer_token)
     
-    # just put the ruby code from github in python here...
     try:
         # charge = stripe.Charge.create(
         #     amount=amount, # remember that this is in cents
@@ -364,9 +363,7 @@ def create_payment_intent():
     )
 
     log_info("intent created")
-    client_secret = intent['client_secret']
-
-    log_info("client secret is being returned")
+    # client_secret = intent['client_secret']
 
     return jsonify(clientSecret=client_secret)
 
@@ -383,24 +380,22 @@ def create_account():
     account_id = account.id
     log_info("end creating account")
     log_info("account id: " + account_id)
-    # log_info("jsonify customer ID: " + jsonify(customer_id=customer_id).dumps())
-    log_info("now return")
     return jsonify(account_id=account_id)
 
 
 @app.route('/add_connect_info', methods=['POST'])
 def add_connect_info():
     log_info("Adding tokenized connect info")
-    log_info(request.form)
+    # log_info(request.form)
     account_id = request.form['account_id']
-    log_info("Got the account ID: " + account_id)
+    # log_info("Got the account ID: " + account_id)
     ip_address = request.form['ip_address']
-    log_info("Got the ip address: " + ip_address)
+    # log_info("Got the ip address: " + ip_address)
     acct_token = request.form['info_token']
-    log_info("form info successfully loaded")
+    # log_info("form info successfully loaded")
     account = stripe.Account.retrieve(account_id)
     log_info("Found associated stripe account")
-    log_info(acct_token)
+    # log_info(acct_token)
     account.account_token = acct_token
     log_info("Successfully associated account token")
 
@@ -417,7 +412,7 @@ def add_connect_info():
 
     accept_services_agreement(account_id, ip_address)
     log_info("Successfully accepted TOS")
-    log_info(account)
+    # log_info(account)
     account.save()
     return jsonify(success="success")
 
@@ -425,14 +420,14 @@ def add_connect_info():
 @app.route('/add_bank_info', methods=['POST'])
 def add_bank_info():
     log_info("Adding tokenized bank info")
-    log_info(request.form)
+    # log_info(request.form)
     account_id = request.form['account_id']
     log_info("Got one form info")
     acct_token = request.form['account_token']
     log_info("form info successfully loaded")
     account = stripe.Account.retrieve(account_id)
     log_info("Found associated stripe account")
-    log_info(acct_token)
+    # log_info(acct_token)
     account.external_accounts.create(external_account=acct_token, default_for_currency=True)
     log_info("Successfully associated account token")
     delete_all_external_accounts_except_default(account_id)
@@ -459,7 +454,7 @@ def recieve_webhook():
     # log_info(event_json)
 
     payload = request.data.decode("utf-8")
-    log_info("The following is the payload: \n" + payload)
+    # log_info("The following is the payload: \n" + payload)
 
     signature = request.headers.get("Stripe-Signature", None)
 
