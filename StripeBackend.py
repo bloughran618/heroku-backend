@@ -618,7 +618,7 @@ def send_email():
         log_info("This is the message: " + str(message))
 
         import smtplib, ssl
-        port = 465
+        port = 587
         password = os.environ.get("spotbirdtheapp_password")
 
         # Create secure SSL context
