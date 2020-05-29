@@ -362,10 +362,12 @@ def create_payment_intent():
         # payment_method_types=['card']
     )
 
+    intent_id = intent["id"]
+
     log_info("intent created")
     client_secret = intent['client_secret']
 
-    return jsonify(clientSecret=client_secret)
+    return jsonify(clientSecret=client_secret, intentID=intent_id)
 
 
 @app.route('/account_id', methods=['POST'])
