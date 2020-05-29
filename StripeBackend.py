@@ -631,6 +631,7 @@ def send_email():
         #
         # log_info("message was sent successfully")
 
+        import smtplib
         s = smtplib.SMTP('smtp.gmail.com', 587)
         s.starttls()
         s.login("spotbirdtheapp@gmail.com", os.environ.get("spotbirdtheapp_password"))
