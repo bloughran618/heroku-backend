@@ -611,34 +611,34 @@ def upload_pictures_to_stripe():
 @app.route('/send_email', methods=['POST'])
 def send_email():
     try:
-        # message = request.form['message']
-        # # remove non-ascii char's
-        # message = ''.join(char for char in message if ord(char) < 128)
-        #
-        # log_info("This is the message: " + str(message))
-        #
-        # import smtplib, ssl
-        # port = 587
-        # password = os.environ.get("spotbirdtheapp_password")
-        #
-        # # Create secure SSL context
-        # context = ssl.create_default_context()
-        #
-        # # send the email
-        # with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-        #     server.login("spotbirdtheapp@gmail.com", password)
-        #     server.sendmail("spotbirdtheapp@gmail.com", "spotbirdllc@gmail.com", message)
-        #
-        # log_info("message was sent successfully")
-
-        import smtplib
-        s = smtplib.SMTP('smtp.gmail.com', 587)
-        s.starttls()
-        s.login("spotbirdtheapp@gmail.com", os.environ.get("spotbirdtheapp_password"))
         message = request.form['message']
+        # remove non-ascii char's
         message = ''.join(char for char in message if ord(char) < 128)
-        s.sendmail("spotbirdtheapp@gmail.com", "spotbirdllc@gmail.com", message)
-        s.quit()
+
+        log_info("This is the message: " + str(message))
+
+        import smtplib, ssl
+        port = 587
+        password = os.environ.get("spotbirdtheapp_password")
+
+        # Create secure SSL context
+        context = ssl.create_default_context()
+
+        # send the email
+        with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+            server.login("spotbirdtheapp@gmail.com", password)
+            server.sendmail("spotbirdtheapp@gmail.com", "spotbirdllc@gmail.com", message)
+
+        log_info("message was sent successfully")
+
+        # import smtplib
+        # s = smtplib.SMTP('smtp.gmail.com', 587)
+        # s.starttls()
+        # s.login("spotbirdtheapp@gmail.com", os.environ.get("spotbirdtheapp_password"))
+        # message = request.form['message']
+        # message = ''.join(char for char in message if ord(char) < 128)
+        # s.sendmail("spotbirdtheapp@gmail.com", "spotbirdllc@gmail.com", message)
+        # s.quit()
 
         return jsonify(success='success')
     except Exception as e:
